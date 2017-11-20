@@ -38,3 +38,6 @@ class ImagerProfile(models.Model):
     phone = models.CharField(max_length=11, blank=True, null=True)
     photo_style = models.CharField(max_length=20, choices=STYLE_CHOICES)
     user = models.OneToOneField(User, related_name='profile')
+
+    def active(self):
+        return [x.username for x.username in User.objects.all() if User.is_active]
