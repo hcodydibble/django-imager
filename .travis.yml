@@ -7,7 +7,7 @@ service:
   - postgresql
 
 before_script:
-  - psql -c "createdb imager;" -U postgres
+  - psql -c "create database imager;" -U postgres
 
 install:
   - pip install -r requirements.pip
