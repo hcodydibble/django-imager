@@ -11,6 +11,7 @@ before_script:
 
 install:
   - pip install -r requirements.pip
+  - pip install coveralls
 
 script:
 #  - python django_imager/manage.py migrate
