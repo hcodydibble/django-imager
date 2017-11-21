@@ -4,15 +4,20 @@
     {% load bootstrap3 %}
     {% bootstrap_css %}
     <meta charset="UTF-8">
-    <title>Django Imager</title>
+    <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
     <nav>
         <ul>
             <li>Make an account</li>
-            <li>Login</li>
+            {% if request.user.is_authenticated %}
+            <li><a href="{% url 'logout' %}">Logout</li></a>
+            {% else %}
+            <li><a href="{% url 'login' %}">Login</li></a>
+            {% endif %}
         </ul>
     </nav>
+
     {% block content %}{% endblock %}
 </body>
 </html>
