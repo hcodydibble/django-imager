@@ -39,5 +39,5 @@ class ImagerProfile(models.Model):
     photo_style = models.CharField(max_length=20, choices=STYLE_CHOICES)
     user = models.OneToOneField(User, related_name='profile')
 
-    def active(self):
-        return [x.username for x.username in User.objects.all() if User.is_active]
+    def active():
+        return [user.username for user in User.objects.all() if user.is_active]
