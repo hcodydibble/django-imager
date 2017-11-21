@@ -1,0 +1,18 @@
+language: python
+python:
+  - "2.7"
+  - "3.6"
+
+service:
+  - postgresql
+
+before_script:
+  - psql -c "createdb imager;" -U postgres
+
+install:
+  - pip install -r requirements.pip
+  - pip install python-coveralls
+
+script:
+  - python django_imager/manage.py migrate
+  - coverage run django_imager/manage.py test
