@@ -1,1 +1,2 @@
+[![Build Status](https://travis-ci.org/hcodydibble/django-imager.svg?branch=models-1)](https://travis-ci.org/hcodydibble/django-imager)[![Coverage Status](https://coveralls.io/repos/github/hcodydibble/django-imager/badge.svg?branch=master)](https://coveralls.io/github/hcodydibble/django-imager?branch=master)
 # django-imager
