@@ -94,8 +94,8 @@ class ProfileTestCase(TestCase):
         """"Test bob is active."""
         assert bob.user.is_active is True
 
-    def test_bob_is(self):
-        """"Test bob is something."""
+    def test_response_contains_empty_title(self):
+        """"Test_response_contains_empty_title."""
         client = Client()
         response = client.get('/')
         assert b'<title></title>' in response.content
