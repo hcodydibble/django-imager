@@ -1,4 +1,4 @@
-"""Django app test."""
+"""Django imager_profile test."""
 
 from __future__ import unicode_literals
 
@@ -7,6 +7,13 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 
 import factory
+
+from django.test import Client
+
+import pytest
+
+
+
 
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -35,6 +42,13 @@ class ProfileTestCase(TestCase):
         self.user.user = 'bob'
         self.user.save()
         # import pdb; pdb.set_trace()
+
+    @pytest.fixture
+    def bob():
+        """User Bob."""
+        client = Client()
+        response = client.post('/login/', {'username': 'bob', 'password': '7890uiop'})
+        return response
 
     def test_user_creation_bob(self):
         """Test_user_creation username bob."""
@@ -75,3 +89,9 @@ class ProfileTestCase(TestCase):
     def test_user_is_active(self):
         """Test all active users are listed."""
         assert self.user.profile.active() == ['bob']
+
+    def test_bob_is_active(bob):
+        """"Test bob is active."""
+        import pdb; pdb.set_trace()
+        
+        assert bob.user.is_active is True
