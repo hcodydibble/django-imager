@@ -1,5 +1,6 @@
 """Views for the Django Imager Site."""
 from django.shortcuts import render
+from django.core.mail import send_mail
 
 
 def home_view(request):
@@ -7,6 +8,7 @@ def home_view(request):
     return render(request, 'django_imager/base.html')
 
 
-def register_complete(request):
+def send_email(request):
     """."""
+    subject = request.POST.get()
     return render(request, 'registration/registration_complete.html')
