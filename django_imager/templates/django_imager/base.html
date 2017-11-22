@@ -17,7 +17,9 @@
             {% endif %}
         </ul>
     </nav>
-
+    {% if request.user.is_authenticated %}
+    <p>Welcome {{ request.user.username }}</p>
+    {% endif %}
     {% block content %}{% endblock %}
 </body>
 </html>
