@@ -8,7 +8,7 @@ def home_view(request):
     return render(request, 'django_imager/base.html')
 
 
-def send_email(request):
-    """."""
-    subject = request.POST.get()
-    return render(request, 'registration/registration_complete.html')
+# def send_email(request):
+#     """."""
+#     subject = request.POST.get()
+#     return render(request, 'registration/registration_complete.html')

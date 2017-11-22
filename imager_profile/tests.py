@@ -99,3 +99,37 @@ class ProfileTestCase(TestCase):
         client = Client()
         response = client.get('/')
         assert b'<title></title>' in response.content
+
+    def test_response_contains_login_title(self):
+        """"Test_response_contains_login_title."""
+        client = Client()
+        response = client.get('/login/')
+        assert b'<title>Login</title>' in response.content
+
+    def test_response_contains_register_title(self):
+        """"Test_response_contains_register_title."""
+        client = Client()
+        response = client.get('/accounts/register/')
+        assert b'<title>Register</title>' in response.content
+
+    def test_response_contains_registered_title(self):
+        """"Test_response_contains_registered_title."""
+        client = Client()
+        response = client.get('/accounts/register/complete/')
+        assert b'<title>Registered</title>' in response.content
+
+    def test_response_contains_hooray_title(self):
+        """"test_response_contains_hooray_title."""
+        client = Client()
+        response = client.get('/accounts/activate/complete/')
+        assert b'<title>Hooray!</title>' in response.content
+
+    def test_response_register_redirects(self):
+        """"Test_response_contains_register_title."""
+        client = Client()
+        response = client.post('/accounts/register/',
+                               {'username': 'fred',
+                                'email': 'fred@fred.com',
+                                'password1': '7890uiop',
+                                'password2': '7890uiop'})
+        assert response.url == '/accounts/register/complete/'
