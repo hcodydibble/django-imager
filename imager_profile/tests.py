@@ -13,11 +13,12 @@ from django.test import Client
 import pytest
 
 
-
-
-
 class UserFactory(factory.django.DjangoModelFactory):
+    """."""
+
     class Meta:
+        """."""
+
         model = User
 
     username = 'bob'
@@ -41,7 +42,6 @@ class ProfileTestCase(TestCase):
         self.user.photo_style = 'All'
         self.user.user = 'bob'
         self.user.save()
-        # import pdb; pdb.set_trace()
 
     @pytest.fixture
     def bob():
@@ -92,6 +92,10 @@ class ProfileTestCase(TestCase):
 
     def test_bob_is_active(bob):
         """"Test bob is active."""
-        import pdb; pdb.set_trace()
-        
         assert bob.user.is_active is True
+
+    def test_bob_is(self):
+        """"Test bob is something."""
+        client = Client()
+        response = client.get('/')
+        assert b'<title></title>' in response.content
