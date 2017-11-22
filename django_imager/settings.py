@@ -73,7 +73,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_imager.wsgi.application'
 
-
+ACCOUNT_ACTIVATION_DAYS = 2
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 

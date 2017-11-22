@@ -1,0 +1,3 @@
+Dear {{ user }},
+
+You recently registered at {{ site }}.
