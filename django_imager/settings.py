@@ -75,7 +75,12 @@ WSGI_APPLICATION = 'django_imager.wsgi.application'
 
 ACCOUNT_ACTIVATION_DAYS = 2
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'nasapikeyplz@gmail.com'
+EMAIL_HOST_PASSWORD = 'lhjnbeayrgwjbads'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
