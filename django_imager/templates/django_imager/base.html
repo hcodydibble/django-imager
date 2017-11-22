@@ -8,11 +8,11 @@
 </head>
 <body>
     <nav>
-        <ul>
-            <li>Make an account</li>
+        <a>
             {% if request.user.is_authenticated %}
             <li><a href="{% url 'logout' %}">Logout</li></a>
             {% else %}
+            <li><a href="{% url 'registration_register' %}">Make an account</li></a>
             <li><a href="{% url 'login' %}">Login</li></a>
             {% endif %}
         </ul>

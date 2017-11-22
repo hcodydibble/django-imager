@@ -16,14 +16,12 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from django_imager.views import home_view, register_complete
+from django_imager.views import home_view
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home_view, name='home'),
-    # url(r'^complete/', register_complete, name='complete'),
     url(r'^login/', auth_views.login, name='login'),
     url(r'^logout/', auth_views.logout, {'next_page': '/'}, name='logout'),
-    # url(r'^register/', auth_views.registration, {'next_page': 'complete'}, name='register'),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
 ]
