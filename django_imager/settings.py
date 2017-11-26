@@ -82,6 +82,10 @@ EMAIL_HOST_PASSWORD = 'lhjnbeayrgwjbads'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
+BOOTSTRAP3 = {
+    'theme_url': 'https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/superhero/bootstrap.min.css',
+}
+
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
