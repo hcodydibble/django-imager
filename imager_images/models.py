@@ -19,19 +19,19 @@ class Photo(models.Model):
     published = models.CharField(max_length=200, choices=PUBLISH_CHOICES, default=PRIV)
     title = models.CharField(max_length=50, null=True)
     description = models.CharField(max_length=100, blank=True, null=True)
-    date_uploaded = models.DateField(default=timezone.now)
-    date_modified = models.DateField(null=True)
-    date_published = models.DateField(default=timezone.now)
+    date_uploaded = models.DateTimeField(auto_now=True)
+    date_modified = models.DateTimeField(auto_now_add=True)
+    date_published = models.DateTimeField()
     profile = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 
 class Album(models.Model):
     album_tile = models.CharField(max_length=50, null=True)
     album_description = models.CharField(max_length=100, blank=True, null=True)
-    date_created = models.DateField(default=timezone.now)
-    date_modified = models.DateField(null=True)
-    date_published = models.DateField(default=timezone.now)
+    date_created = models.DateTimeField(auto_now=True)
+    date_modified = models.DateTimeField(auto_now_add=True)
+    date_published = models.DateTimeField()
     published = models.CharField(max_length=200, choices=PUBLISH_CHOICES, default=PRIV)
     cover = models.ImageField(null=True)  # Same as Photo model.
     user = models.OneToOneField(User, related_name='album', null=True)
-    photo = models.ForeignKey(Photo, on_delete=models.CASCADE, null=True)
+    photo = models.ManyToManyField(Photo)
