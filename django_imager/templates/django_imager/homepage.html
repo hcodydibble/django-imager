@@ -1,0 +1,11 @@
+{% extends 'django_imager/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<div style="text-align: center;">
+    <h1>Another Imager Site</h1>
+    <img src="{% static 'imgs/bottom.jpg' %}" />
+    <p>Welcome to Another Imager Site! If this is your first time here feel free to click around and get used to our site. After you feel comfortable here go ahead and make an account and stay....FOREVER!</p>
+</div>
+{% endblock %}

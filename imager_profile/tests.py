@@ -1,4 +1,4 @@
-"""Django app test."""
+"""Django imager_profile test."""
 
 from __future__ import unicode_literals
 
@@ -8,9 +8,17 @@ from django.test import TestCase
 
 import factory
 
+from django.test import Client
+
+import pytest
+
 
 class UserFactory(factory.django.DjangoModelFactory):
+    """."""
+
     class Meta:
+        """."""
+
         model = User
 
     username = 'bob'
@@ -34,7 +42,13 @@ class ProfileTestCase(TestCase):
         self.user.photo_style = 'All'
         self.user.user = 'bob'
         self.user.save()
-        # import pdb; pdb.set_trace()
+
+    @pytest.fixture
+    def bob():
+        """User Bob."""
+        client = Client()
+        response = client.post('/login/', {'username': 'bob', 'password': '7890uiop'})
+        return response
 
     def test_user_creation_bob(self):
         """Test_user_creation username bob."""
@@ -75,3 +89,47 @@ class ProfileTestCase(TestCase):
     def test_user_is_active(self):
         """Test all active users are listed."""
         assert self.user.profile.active() == ['bob']
+
+    def test_bob_is_active(bob):
+        """"Test bob is active."""
+        assert bob.user.is_active is True
+
+    def test_response_contains_empty_title(self):
+        """"Test_response_contains_empty_title."""
+        client = Client()
+        response = client.get('/')
+        assert b'<title></title>' in response.content
+
+    def test_response_contains_login_title(self):
+        """"Test_response_contains_login_title."""
+        client = Client()
+        response = client.get('/login/')
+        assert b'<title>Login</title>' in response.content
+
+    def test_response_contains_register_title(self):
+        """"Test_response_contains_register_title."""
+        client = Client()
+        response = client.get('/accounts/register/')
+        assert b'<title>Register</title>' in response.content
+
+    def test_response_contains_registered_title(self):
+        """"Test_response_contains_registered_title."""
+        client = Client()
+        response = client.get('/accounts/register/complete/')
+        assert b'<title>Registered</title>' in response.content
+
+    def test_response_contains_hooray_title(self):
+        """"test_response_contains_hooray_title."""
+        client = Client()
+        response = client.get('/accounts/activate/complete/')
+        assert b'<title>Hooray!</title>' in response.content
+
+    def test_response_register_redirects(self):
+        """"Test_response_contains_register_title."""
+        client = Client()
+        response = client.post('/accounts/register/',
+                               {'username': 'fred',
+                                'email': 'fred@fred.com',
+                                'password1': '7890uiop',
+                                'password2': '7890uiop'})
+        assert response.url == '/accounts/register/complete/'
