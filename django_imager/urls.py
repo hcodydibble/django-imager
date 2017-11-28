@@ -19,7 +19,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django_imager.views import home_view
-import imager_profile
+# import imager_profile
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

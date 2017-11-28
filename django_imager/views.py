@@ -3,6 +3,7 @@ import random
 import os
 from django.shortcuts import render
 from django.conf import settings
+from django.contrib.auth.models import User
 
 
 def home_view(request):
@@ -14,4 +15,6 @@ def home_view(request):
 # 
 # def profile_view(request):
 #     """The profile view."""
-#     return
+#     username = request.user.username
+#     profile = User.objects.get(username=username)
+#     return render(request, 'django_imager/profile.html', {'profile': profile})

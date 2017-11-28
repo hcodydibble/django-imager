@@ -1,0 +1,11 @@
+{% extends 'django_imager/base.html' %}
+
+{% block content %}
+
+<ul>
+  {% for item in profile.user %}
+  <li>{{ item }}</li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
