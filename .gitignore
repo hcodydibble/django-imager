@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+# Ignore contents but keep folder
+MEDIA/*
+!MEDIA/.gitkeep
+
 # Distribution / packaging
 .Python
 env/
