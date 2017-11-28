@@ -7,8 +7,8 @@ __pycache__/
 *.so
 
 # Ignore contents but keep folder
-MEDIA/*
-!MEDIA/.gitkeep
+django_imager/MEDIA/*
+!django_imager/MEDIA/.gitkeep
 
 # Distribution / packaging
 .Python
