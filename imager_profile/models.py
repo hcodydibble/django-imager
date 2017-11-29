@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from multiselectfield import MultiSelectField as multi
 
 SLR = 'SLR'
 R_FIND = 'Range finder'
@@ -35,10 +36,10 @@ class ImagerProfile(models.Model):
     location = models.CharField(max_length=200, blank=True, null=True)
     fee = models.FloatField(max_length=6, blank=True, null=True)
     camera = models.CharField(max_length=15, choices=CAMERA_CHOICES)
-    services = models.CharField(max_length=20, choices=SERVICE_CHOICES)
+    services = multi(choices=SERVICE_CHOICES, max_choices=2)
     bio = models.TextField(max_length=200, blank=True, null=True)
     phone = models.CharField(max_length=11, blank=True, null=True)
-    photo_style = models.CharField(max_length=20, choices=STYLE_CHOICES)
+    photo_style = multi(choices=STYLE_CHOICES, max_choices=3)
     user = models.OneToOneField(User, related_name='profile')
     objects = models.Manager()
 

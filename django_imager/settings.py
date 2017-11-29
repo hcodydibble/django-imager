@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'bootstrap3',
     'django_imager',
     'imager_profile',
-    'imager_images'
+    'imager_images',
+    'multiselectfield'
 ]
 
 MIDDLEWARE = [
