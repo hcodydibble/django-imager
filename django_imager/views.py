@@ -12,7 +12,7 @@ def home_view(request):
     choice = random.choice(list_images)
     return render(request, 'django_imager/homepage.html', {'choice': choice})
 
-# 
+#
 # def profile_view(request):
 #     """The profile view."""
 #     username = request.user.username

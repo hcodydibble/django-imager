@@ -1,20 +1,28 @@
 """Library view."""
 
-from django.shortcuts import render
-from django.contrib.auth.models import User
+from imager_images.models import Album, Photo
+from django.views.generic import ListView, DetailView
 
 
-# Create your views here.
-
-def library_view(request, user_search=None):
+class LibraryView(ListView):
     """The library view."""
-    if user_search:
-        username = user_search
-    else:
-        username = request.user.username
-    user = User.objects.get(username=username)
-    profile = user.profile
-    albums = []
-    for album in profile.user.album.all():
-        albums.append(album)
-    return render(request, 'django_imager/library.html', {'album': albums})
+
+    template_name = 'django_imager/library.html'
+    model = Album
+    exclude = []
+
+
+class AlbumView(ListView):
+    """docstring for AlbumView."""
+
+    template_name = 'django_imager/album.html'
+    model = Album
+    exclude = []
+
+
+class PhotoView(DetailView):
+    """docstring for PhotoView."""
+
+    template_name = 'django_imager/photo.html'
+    model = Photo
+    exclude = []

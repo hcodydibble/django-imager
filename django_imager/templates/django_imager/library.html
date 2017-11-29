@@ -1,10 +1,7 @@
 {% extends 'django_imager/base.html' %}
 
 {% block content %}
-<!-- show albums for user -->
-{% if request.user.username == profile.user.username %}
-<button>Delete Everything</button>
-{% else %}
-<p>Link to this users albums.</p>
-{% endif %}
+{% for album in albums %}
+<li>{{ album.cover }}</li>
+{% endfor %}
 {% endblock %}

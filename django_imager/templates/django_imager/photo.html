@@ -1,0 +1,17 @@
+{% extends 'django_imager/base.html' %}
+{% block title%}{{ photo.title }}{% endblock %}
+
+{% block content %}
+<ul>
+  {% if photo.title %}
+  <li>{{ photo.title }}</li>
+  {% endif %}
+  <li>{{ photo.image_file }}</li>
+  {% if photo.description %}
+  <li>{{ photo.description }}</li>
+  {% endif %}
+  <li>{{ photo.date_uploaded }}</li>
+  <li>{{ photo.profile.user.username }}</li>
+</ul>
+
+{% endblock %}
