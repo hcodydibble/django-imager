@@ -42,12 +42,15 @@ class ProfileTestCase(TestCase):
         self.user.photo_style = 'All'
         self.user.user = 'bob'
         self.user.save()
+        self.client = Client()
+        self.bob = self.client.post('/login/', {'username': 'bob', 'password': '7890uiop'})
+
 
     @pytest.fixture
-    def bob():
+    def bob(self):
         """User Bob."""
         client = Client()
-        response = client.post('/login/', {'username': 'bob', 'password': '7890uiop'})
+        self.response = client.post('/login/', {'username': 'bob', 'password': '7890uiop'})
         return response
 
     def test_user_creation_bob(self):
@@ -98,7 +101,7 @@ class ProfileTestCase(TestCase):
         """"Test_response_contains_empty_title."""
         client = Client()
         response = client.get('/')
-        assert b'<title></title>' in response.content
+        assert b'<title>IMAGER</title>' in response.content
 
     def test_response_contains_login_title(self):
         """"Test_response_contains_login_title."""
@@ -133,3 +136,15 @@ class ProfileTestCase(TestCase):
                                 'password1': '7890uiop',
                                 'password2': '7890uiop'})
         assert response.url == '/accounts/register/complete/'
+
+    def test_profile_view_shows_bob(self):
+        """test_profile_view_shows_bob."""
+        response = self.client.get('/profile/bob/')
+        assert b'<li>username: bob</li>' in response.content
+
+    def test_profile_view_shows_(self):
+        """test_profile_view_shows_."""
+        self.client.post('/login/', {'username': 'bob', 'password': '7890uiop'})
+        response = self.client.get('/profile')
+        # import pdb; pdb.set_trace()
+        assert response.content == b''

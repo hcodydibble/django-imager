@@ -63,3 +63,8 @@ class ProfileTestCase(TestCase):
     def test_bob_photo_datetime_exists(self):
         photo = self.user.photo.get(title='A photo')
         assert isinstance(photo.date_uploaded, datetime.datetime)
+
+    def test_profile_view_shows_bob(self):
+        """test_profile_view_shows_bob."""
+        response = self.client.get('/profile/bob/')
+        assert b'<li>username: bob</li>' in response.content
