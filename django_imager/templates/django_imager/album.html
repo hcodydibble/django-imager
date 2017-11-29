@@ -1,7 +1,11 @@
 {% extends 'django_imager/base.html' %}
+
+{% load thumbnail %}
 {% block title%}{{ album.album_title }}{% endblock %}
 {% block content %}
 {% for photo in album.photos %}
-<li>{{ photo.image_file }}</li>
+{% thumbnail photo.image_file "100x100" crop="center" as im %}
+<img src="{{ MEDIA_URL }} {{ photo.image_file }}" width="{{ im.width }}" height="{{ im.height }}">
+{% endthumbnail %}
 {% endfor %}
 {% endblock %}
