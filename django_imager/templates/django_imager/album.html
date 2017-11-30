@@ -2,7 +2,7 @@
 
 {% load thumbnail %}
 {% block title%}{{ album.album_title }}{% endblock %}
-{% block content %}
+{% block content %
 {% for photo in album.photos %}
 {% thumbnail photo.image_file "100x100" crop="center" as im %}
 <img src="{{ MEDIA_URL }} {{ photo.image_file }}" width="{{ im.width }}" height="{{ im.height }}">

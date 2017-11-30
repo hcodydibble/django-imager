@@ -1,7 +1,9 @@
 {% extends 'django_imager/base.html' %}
 
 {% block content %}
-{% for album in albums %}
-<li>{{ album.cover }}</li>
+{% for album in album_list %}
+<div style='text-align: center;'>
+    <img src="{{ album.cover }}" style='width: 200px; height: 200px;'/>
+</div>
 {% endfor %}
 {% endblock %}

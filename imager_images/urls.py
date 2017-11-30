@@ -6,6 +6,6 @@ from imager_images.views import LibraryView, AlbumView, PhotoView
 
 urlpatterns = [
     url(r'library', LibraryView.as_view()),
-    url(r'^albums/(?P<album_id>\d+)', AlbumView.as_view()),
-    url(r'^photos/(?P<photo_id>\d+)', PhotoView.as_view()),
+    url(r'^albums/(?P<pk>\d+)', AlbumView.as_view()),
+    url(r'^photos/(?P<pk>\d+)', PhotoView.as_view()),
 ]

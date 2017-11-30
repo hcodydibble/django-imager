@@ -2,16 +2,16 @@
 {% block title%}{{ photo.title }}{% endblock %}
 
 {% block content %}
-<ul>
+<div style='text-align: center;'>
   {% if photo.title %}
-  <li>{{ photo.title }}</li>
+  <p>{{ photo.title }}</p>
   {% endif %}
-  <li>{{ photo.image_file }}</li>
+  <img src="{{ photo.image_file }}">
   {% if photo.description %}
-  <li>{{ photo.description }}</li>
+  <p>{{ photo.description }}</p>
   {% endif %}
-  <li>{{ photo.date_uploaded }}</li>
-  <li>{{ photo.profile.user.username }}</li>
-</ul>
+  <p>{{ photo.date_uploaded }}</p>
+  <p>{{ photo.profile }}</p>
+</div>
 
 {% endblock %}
