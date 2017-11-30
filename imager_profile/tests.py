@@ -139,7 +139,7 @@ class ProfileTestCase(TestCase):
 
     def test_profile_view_shows_bob(self):
         """test_profile_view_shows_bob."""
-        response = self.client.get('/profile/bob/')
+        response = self.client.get('/profile/bob')
         assert b'<li>username: bob</li>' in response.content
 
     def test_profile_view_shows_(self):
