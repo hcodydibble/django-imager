@@ -14,7 +14,7 @@ def profile_view(request, user_search=None):
     photos = []
     albums = profile.user.album.all()
     for item in albums:
-        for photo in item.photo.all():
+        for photo in item.photo_set.all():
             photos.append(photo)
     photo_count = len(photos)
     return render(request, 'django_imager/profile.html', {'profile': profile, 'count': photo_count})
