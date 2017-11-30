@@ -3,8 +3,12 @@
 {% block title%}IMAGER{% endblock %}
 {% block content %}
 <div style="text-align: center;">
-    <h1>Another Imager Site</h1>
-    <img src="{{ MEDIA_URL }}{{ choice }}" />
-    <p>Welcome to Another Imager Site! If this is your first time here feel free to click around and get used to our site. After you feel comfortable here go ahead and make an account and stay....FOREVER!</p>
+    <div class="jumbotron">
+        <h1 class="change-me">Memeager</h1>
+        <p>Welcome to Memeager! If this is your first time here feel free to click around and get used to our site. After you feel comfortable here go ahead and make an account and stay....FOREVER!</p>
+    </div>
+    <div style="width: 25%; height: 25%; margin-left: auto; margin-right: auto;">
+        <img src="{{ MEDIA_URL }}{{ choice }}" style="max-height: 100%; max-width: 100%;"/>
+    </div>
 </div>
 {% endblock %}
