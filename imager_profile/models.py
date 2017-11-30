@@ -14,10 +14,17 @@ COLOR = 'COLOR'
 SHOP = 'PHOTOSHOP'
 
 
+class ProfileManager(models.Manager):
+    """."""
+
+    def get_queryset(self):
+        """."""
+        return super(ProfileManager, self).get_queryset().filter(user__is_active=True)
 # Create your models here.
 
 
 class ImagerProfile(models.Model):
+
     CAMERA_CHOICES = (
         (SLR, 'SLR'),
         (R_FIND, 'Range finder'),
@@ -41,10 +48,14 @@ class ImagerProfile(models.Model):
     phone = models.CharField(max_length=11, blank=True, null=True)
     photo_style = multi(choices=STYLE_CHOICES, max_choices=3)
     user = models.OneToOneField(User, related_name='profile')
+    active = ProfileManager()
     objects = models.Manager()
 
-    def active(self):
-        return [user.username for user in User.objects.all() if user.is_active]
+    @property
+    def is_active(self):
+        """."""
+        return self.user.is_active
+
 
 @receiver(post_save, sender=User)
 def create_user_imager_profile(sender, instance, created, **kwargs):
