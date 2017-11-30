@@ -1,7 +1,6 @@
 """Images URLS."""
 
 from django.conf.urls import url
-from imager_profile.views import profile_view
 from imager_images.views import LibraryView, AlbumView, PhotoView
 
 urlpatterns = [
