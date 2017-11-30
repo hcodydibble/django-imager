@@ -1,7 +1,11 @@
 {% extends 'django_imager/base.html' %}
 {% block title%}{{ album.title }}{% endblock %}
 {% block content %}
+<img src="{{ MEDIA_URL }}{{ album.cover }}" alt="">
+<h3 class="">
+  {{ album.title }}
+</h3>
 {% for photo in photos %}
-<img src="{{ photo.image_file }}">
+<img src="{{ MEDIA_URL }}{{ photo.image_file }}">
 {% endfor %}
 {% endblock %}

@@ -3,7 +3,7 @@
 {% block content %}
 {% for album in album_list %}
 <div style='text-align: center;'>
-    <img src="{{ album.cover }}" style='width: 200px; height: 200px;'/>
+    <img src="{{ MEDIA_URL }}{{ album.cover }}" style='width: 200px; height: 200px;'/>
 </div>
 {% endfor %}
 {% endblock %}

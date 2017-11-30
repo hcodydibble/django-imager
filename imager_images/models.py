@@ -20,11 +20,11 @@ class Album(models.Model):
     date_modified = models.DateTimeField(auto_now_add=True)
     date_published = models.DateTimeField(null=True)
     published = models.CharField(max_length=200, choices=PUBLISH_CHOICES, default=PRIV)
-    cover = ImageField(upload_to='django_imager/MEDIA', null=True)  # Same as Photo model.
+    cover = ImageField(upload_to='', null=True)  # Same as Photo model.
     user = models.ForeignKey(User, related_name='album', on_delete=models.CASCADE, null=True)
 
 class Photo(models.Model):
-    image_file = ImageField(upload_to='django_imager/MEDIA')  # Will use Pillow once I figure it out.
+    image_file = ImageField(upload_to='')  # Will use Pillow once I figure it out.
     published = models.CharField(max_length=200, choices=PUBLISH_CHOICES, default=PRIV)
     title = models.CharField(max_length=50, null=True)
     description = models.CharField(max_length=100, blank=True, null=True)
@@ -33,5 +33,3 @@ class Photo(models.Model):
     date_published = models.DateTimeField(null=True)
     profile = models.ForeignKey(User, related_name='photo', on_delete=models.CASCADE, null=True)
     album = models.ManyToManyField(Album)
-
-

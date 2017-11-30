@@ -1,9 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from imager_profile.models import ImagerProfile
+from .models import Photo, Album
 
 
-@admin.register(ImagerProfile)
-class ImagerProfileAdmin(admin.ModelAdmin):
-    pass
+admin.site.register(Photo)
+admin.site.register(Album)
