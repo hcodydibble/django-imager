@@ -3,7 +3,9 @@
 {% block content %}
 {% for album in album_list %}
 <div style='text-align: center;'>
-    <img src="{{ MEDIA_URL }}{{ album.cover }}" style='width: 200px; height: 200px;'/>
+    <a href="{% url 'album' pk=album.id %}"><img src="{{ MEDIA_URL }}{{ album.cover }}" style='width: 200px; height: 200px;'/></a>
 </div>
 {% endfor %}
+<a href="{% url 'new_album' %}"><button class='btn btn-primary' type="button" >Create Album</button></a>
+<button class='btn btn-primary' type="button" >Upload Photo</button>
 {% endblock %}
