@@ -10,8 +10,6 @@ import factory
 
 from django.test import Client
 
-import pytest
-
 
 class UserFactory(factory.django.DjangoModelFactory):
     """."""
