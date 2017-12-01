@@ -26,6 +26,9 @@ class Album(models.Model):
     cover = ImageField(upload_to='', null=True)
     user = models.ForeignKey(User, related_name='album', on_delete=models.CASCADE, null=True)
 
+    def __str__(self):
+        return self.title
+
 
 class Photo(models.Model):
     """.Photo model."""
