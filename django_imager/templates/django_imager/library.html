@@ -1,11 +1,19 @@
 {% extends 'django_imager/base.html' %}
 
+{% block title%}Library{% endblock %}
+
 {% block content %}
+<div class="centered">
 {% for album in album_list %}
-<div style='text-align: center;'>
-    <a href="{% url 'album' pk=album.id %}"><img src="{{ MEDIA_URL }}{{ album.cover }}" style='width: 200px; height: 200px;'/></a>
-</div>
+    <div style='text-align: center; display: inline-block;'>
+        <a href="{% url 'album' pk=album.id %}"><img src="{{ MEDIA_URL }}{{ album.cover }}" style='width: 200px; height: 200px; margin-top: 10px;'/></a>
+        <p>{{ album.title }}</p>
+        <p>{{ album.date_created }}</p>
+    </div>
 {% endfor %}
-<a href="{% url 'new_album' %}"><button class='btn btn-primary' type="button" >Create Album</button></a>
-<a href="{% url 'new_photo' %}"><button class='btn btn-primary' type="button" >Upload Photo</button></a>
+</div>
+<div style='text-align: center; margin-top: 13px;'>
+    <a href="{% url 'new_album' %}"><button class='btn btn-primary' type="button" >Create Album</button></a>
+    <a href="{% url 'new_photo' %}"><button class='btn btn-primary' type="button" >Upload Photo</button></a>
+</div>
 {% endblock %}

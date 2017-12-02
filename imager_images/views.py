@@ -2,6 +2,7 @@
 
 from imager_images.models import Album, Photo
 from django.views.generic import ListView, DetailView, CreateView
+from django.contrib.auth.models import User
 from .forms import NewPhotoForm
 
 
