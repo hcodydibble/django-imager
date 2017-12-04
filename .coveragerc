@@ -5,7 +5,6 @@ include = django_imager/urls.py,
           imager_profile/urls.py,
           imager_profile/models.py,
           imager_images/models.py,
-          imager_images/views.py,
           imager_images/urls.py
 
 [report]
