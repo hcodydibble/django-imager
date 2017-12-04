@@ -44,7 +44,7 @@ class ImagerProfile(models.Model):
     camera = models.CharField(max_length=15, choices=CAMERA_CHOICES)
     services = models.CharField(max_length=20, choices=SERVICE_CHOICES)
     bio = models.TextField(max_length=200, blank=True, null=True)
-    phone = models.CharField(max_length=11, blank=True, null=True)
+    phone = models.CharField(max_length=12, blank=True, null=True)
     photo_style = models.CharField(max_length=20, choices=STYLE_CHOICES)
     user = models.OneToOneField(User, related_name='profile')
     active = ProfileManager()
