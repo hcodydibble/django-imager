@@ -12,6 +12,6 @@ class HomeView(TemplateView):
 
     def get_context_data(self):
         super(HomeView, self).get_context_data()
-        list_images = os.listdir(path=settings.MEDIA_ROOT)
+        list_images = os.listdir()
         choice = random.choice(list_images)
         return {'choice': choice}
