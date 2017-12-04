@@ -87,7 +87,7 @@ class ProfileTestCase(TestCase):
         """"Test_response_contains_empty_title."""
         client = Client()
         response = client.get('/')
-        assert b'<title>IMAGER</title>' in response.content
+        assert b'<title></title>' in response.content
 
     def test_response_contains_login_title(self):
         """"Test_response_contains_login_title."""
