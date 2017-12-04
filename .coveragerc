@@ -1,7 +1,6 @@
 [run]
 include = django_imager/urls.py,
           django_imager/views.py,
-          imager_profile/views.py,
           imager_profile/urls.py,
           imager_profile/models.py,
           imager_images/models.py,
