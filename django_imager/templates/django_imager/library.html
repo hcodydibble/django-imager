@@ -7,8 +7,8 @@
 {% for album in album_list %}
     <div style='text-align: center; display: inline-block;'>
         <a href="{% url 'album' pk=album.id %}"><img src="{{ MEDIA_URL }}{{ album.cover }}" style='width: 200px; height: 200px; margin-top: 10px;'/></a>
-        <p>{{ album.title }}</p>
-        <p>{{ album.date_created }}</p>
+        <p class="colorr">{{ album.title }}</p>
+        <button class='btn btn-primary luul'>Edit</button>
     </div>
 {% endfor %}
 </div>

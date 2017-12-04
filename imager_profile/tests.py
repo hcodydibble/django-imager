@@ -44,12 +44,12 @@ class ProfileTestCase(TestCase):
         self.bob = self.client.post('/login/', {'username': 'bob', 'password': '7890uiop'})
 
 
-    @pytest.fixture
-    def bob(self):
-        """User Bob."""
-        client = Client()
-        self.response = client.post('/login/', {'username': 'bob', 'password': '7890uiop'})
-        return response
+    # @pytest.fixture
+    # def bob(self):
+    #     """User Bob."""
+    #     client = Client()
+    #     self.response = client.post('/login/', {'username': 'bob', 'password': '7890uiop'})
+    #     return response
 
     def test_user_creation_bob(self):
         """Test_user_creation username bob."""
