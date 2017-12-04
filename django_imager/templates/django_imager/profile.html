@@ -13,7 +13,7 @@
 
 <ul>
     <li>main camera: {{ profile.camera }}</li>
-    <li>styles: 
+    <li>styles:
         <ul>
             {% for style in profile.photo_style %}
             <li>{{ style }}</li>
@@ -36,6 +36,6 @@
 {% if request.user.username == profile.user.username %}
 <button>Delete Everything</button>
 {% else %}
-<p>Link to this users albums.</p>
+  <a href="{% url 'library' %}">Link to this users albums.</a>
 {% endif %}
 {% endblock %}
