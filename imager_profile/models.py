@@ -51,7 +51,7 @@ class ImagerProfile(models.Model):
     active = ProfileManager()
     objects = models.Manager()
 
-    @property
+    @property  # pragma no cover
     def is_active(self):
         """."""
         return self.user.is_active
