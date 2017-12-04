@@ -93,7 +93,7 @@ class ProfileTestCase(TestCase):
 
     def test_user_creation_services(self):
         """Test_user_creation services bob."""
-        assert self.bob.services == 'All'
+        assert self.bob.services == ['All']
 
     def test_user_is_active(self):
         """Test all active users are listed."""
