@@ -1,4 +1,4 @@
-"""Django app test."""
+"""Django imager_profile test."""
 
 from __future__ import unicode_literals
 

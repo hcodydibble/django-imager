@@ -1,13 +1,7 @@
 [run]
-omit =
-    */migrations/*,
-    */tests.py
-    manage.py
-    lending_library/wsgi.py
-    django_imager/*
-    imager_profile/admin.py
-    imager_profile/apps.py
-    imager_profile/views.py
+include = django_imager/urls.py,
+          django_imager/views.py,
+          imager_profile/models.py,
 
 source =
     django_imager
