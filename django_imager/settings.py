@@ -21,6 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
+LOGIN_REDIRECT_URL = 'home'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,7 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'imager_profile'
+    'bootstrap3',
+    'django_imager',
+    'imager_profile',
+    'imager_images'
 ]
 
 MIDDLEWARE = [
@@ -70,6 +74,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_imager.wsgi.application'
 
+ACCOUNT_ACTIVATION_DAYS = 2
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'nasapikeyplz@gmail.com'
+EMAIL_HOST_PASSWORD = 'lhjnbeayrgwjbads'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+BOOTSTRAP3 = {
+    'theme_url': 'https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/superhero/bootstrap.min.css',
+}
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
