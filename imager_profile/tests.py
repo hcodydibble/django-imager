@@ -10,6 +10,8 @@ import factory
 
 from django.test import Client
 
+from .models import ImagerProfile as IP
+
 
 class UserFactory(factory.django.DjangoModelFactory):
     """."""
@@ -23,6 +25,18 @@ class UserFactory(factory.django.DjangoModelFactory):
     email = 'bob@example.com'
 
 
+class User2Factory(factory.django.DjangoModelFactory):
+    """."""
+
+    class Meta:
+        """."""
+
+        model = User
+
+    username = 'bill'
+    email = 'bill@example.com'
+
+
 class ProfileTestCase(TestCase):
     """ProfileTestCase 1."""
 
@@ -30,54 +44,58 @@ class ProfileTestCase(TestCase):
         """Setup user bob."""
         self.user = UserFactory.create()
         self.user.set_password('secret')
-        self.user.website = 'https://bob.net'
-        self.user.location = 'Seattle, WA'
-        self.user.fee = 120
-        self.user.camera = 'Nikon D850'
-        self.user.services = 'All'
-        self.user.bio = 'No need'
-        self.user.phone = '555-555-5555'
-        self.user.photo_style = 'All'
-        self.user.user = 'bob'
-        self.user.save()
-        self.client = Client()
-        self.bob = self.client.post('/login/', {'username': 'bob', 'password': '7890uiop'})
+        self.user.profile.website = 'https://bob.net'
+        self.user.profile.location = 'Seattle, WA'
+        self.user.profile.fee = 120
+        self.user.profile.camera = 'Nikon D850'
+        self.user.profile.services = 'All'
+        self.user.profile.bio = 'No need'
+        self.user.profile.phone = '555-555-5555'
+        self.user.profile.photo_style = 'All'
+        self.user.profile.save()
+        self.bob = IP.objects.get(id=self.user.pk)
+        self.phil = User(username='phil', email='p@p.com', is_active=False)
+        self.active = IP.active.all()
+
+    def tearDown(self):
+        """."""
+        User.objects.all().delete()
 
     def test_user_creation_bob(self):
         """Test_user_creation username bob."""
-        assert self.user.username == 'bob'
+        assert User.objects.get(username='bob').username == 'bob'
 
     def test_user_creation_email(self):
         """Test_user_creation username bob."""
-        assert self.user.email == 'bob@example.com'
+        assert self.bob.user.email == 'bob@example.com'
 
     def test_user_creation_pw_hash(self):
         """Test_user_creation pw hash bob."""
-        assert self.user.password is not 'pbkdf2_sha256$36000$pMxN1crrDp6Y$rbJ5x0bTo3yRhEsk6Iln+s/jXZQ+MtenGrKNqenffOE'
+        assert self.bob.user.password is not 'pbkdf2_sha256$36000$pMxN1crrDp6Y$rbJ5x0bTo3yRhEsk6Iln+s/jXZQ+MtenGrKNqenffOE'
 
     def test_user_creation_website(self):
         """Test_user_creation website bob."""
-        assert self.user.website == 'https://bob.net'
+        assert self.bob.website == 'https://bob.net'
 
     def test_user_creation_is_active(self):
         """Test_user_creation is active bob."""
-        assert self.user.is_active is True
+        assert self.bob.is_active is True
 
     def test_user_creation_location(self):
         """Test_user_creation location bob."""
-        assert self.user.location == 'Seattle, WA'
+        assert self.bob.location == 'Seattle, WA'
 
     def test_user_creation_fee(self):
         """Test_user_creation fee bob."""
-        assert self.user.fee == 120
+        assert self.bob.fee == 120
 
     def test_user_creation_camera(self):
         """Test_user_creation camera bob."""
-        assert self.user.camera == 'Nikon D850'
+        assert self.bob.camera == 'Nikon D850'
 
     def test_user_creation_services(self):
         """Test_user_creation services bob."""
-        assert self.user.services == 'All'
+        assert self.bob.services == 'All'
 
     def test_bob_is_active(self):
         """"Test bob is active."""
@@ -134,3 +152,16 @@ class ProfileTestCase(TestCase):
         response = self.client.get('/profile')
         # import pdb; pdb.set_trace()
         assert response.content == b''
+
+    def test_user_is_active(self):
+        """Test all active users are listed."""
+        assert IP.active.get(id=self.bob.user_id).user.username == 'bob'
+
+    def test_user_is_not_active(self):
+        """."""
+        assert IP.active.all().count() == 1
+
+    def test_add_another_active_user(self):
+        """."""
+        self.bill = User2Factory.create()
+        assert IP.active.all().count() == 2
