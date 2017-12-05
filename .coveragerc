@@ -1,11 +1,5 @@
 [run]
-include = django_imager/urls.py,
-          django_imager/views.py,
-          imager_profile/models.py,
-
-source =
-    django_imager
-    imager_profile
+include = imager_profile/models.py,
 
 [report]
 show_missing = True
