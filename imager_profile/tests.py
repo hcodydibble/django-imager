@@ -8,6 +8,8 @@ from django.test import TestCase
 
 import factory
 
+from django.test import Client
+
 from .models import ImagerProfile as IP
 
 
@@ -93,7 +95,63 @@ class ProfileTestCase(TestCase):
 
     def test_user_creation_services(self):
         """Test_user_creation services bob."""
-        assert self.bob.services == 'All'
+        assert self.bob.services == ['All']
+
+    def test_bob_is_active(self):
+        """"Test bob is active."""
+        # assert self.bob.is_active is True
+
+    def test_response_contains_empty_title(self):
+        """"Test_response_contains_empty_title."""
+        client = Client()
+        response = client.get('/')
+        assert b'<title>IMAGER</title>' in response.content
+
+    def test_response_contains_login_title(self):
+        """"Test_response_contains_login_title."""
+        client = Client()
+        response = client.get('/login/')
+        assert b'<title>Login</title>' in response.content
+
+    def test_response_contains_register_title(self):
+        """"Test_response_contains_register_title."""
+        client = Client()
+        response = client.get('/accounts/register/')
+        assert b'<title>Register</title>' in response.content
+
+    def test_response_contains_registered_title(self):
+        """"Test_response_contains_registered_title."""
+        client = Client()
+        response = client.get('/accounts/register/complete/')
+        assert b'<title>Registered</title>' in response.content
+
+    def test_response_contains_hooray_title(self):
+        """"test_response_contains_hooray_title."""
+        client = Client()
+        response = client.get('/accounts/activate/complete/')
+        assert b'<title>Hooray!</title>' in response.content
+
+    def test_response_register_redirects(self):
+        """"Test_response_contains_register_title."""
+        client = Client()
+        response = client.post('/accounts/register/',
+                               {'username': 'fred',
+                                'email': 'fred@fred.com',
+                                'password1': '7890uiop',
+                                'password2': '7890uiop'})
+        assert response.url == '/accounts/register/complete/'
+
+    def test_profile_view_shows_bob(self):
+        """test_profile_view_shows_bob."""
+        response = self.client.get('/profile/bob')
+        assert b'<li>username: bob</li>' in response.content
+
+    def test_profile_view_shows_(self):
+        """test_profile_view_shows_."""
+        self.client.post('/login/', {'username': 'bob', 'password': '7890uiop'})
+        response = self.client.get('/profile')
+        # import pdb; pdb.set_trace()
+        assert response.content == b''
 
     def test_user_is_active(self):
         """Test all active users are listed."""

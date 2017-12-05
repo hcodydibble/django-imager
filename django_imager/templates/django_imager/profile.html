@@ -1,0 +1,41 @@
+{% extends 'django_imager/base.html' %}
+
+{% block content %}
+
+<ul>
+  <li>username: {{ profile.user.username }}</li>
+  <li>email: {{ profile.user.email }}</li>
+  <li>phone number: {{ profile.phone }}</li>
+  <li>website: {{ profile.website }}</li>
+  <li>location: {{ profile.location }}</li>
+  <li>fee: {{ profile.fee }}/hr</li>
+</ul>
+
+<ul>
+    <li>main camera: {{ profile.camera }}</li>
+    <li>styles:
+        <ul>
+            {% for style in profile.photo_style %}
+            <li>{{ style }}</li>
+            {% endfor %}
+        </ul>
+    </li>
+    <li>services:
+        <ul>
+            {% for service in profile.services %}
+            <li>{{ service }}</li>
+            {% endfor %}
+        </ul>
+    </li>
+</ul>
+
+<ul>
+    <li>total photo count: {{ count }}</li>
+</ul>
+
+{% if request.user.username == profile.user.username %}
+<button>Delete Everything</button>
+{% else %}
+  <a href="{% url 'library' %}">Link to this users albums.</a>
+{% endif %}
+{% endblock %}

@@ -1,19 +1,21 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
-    {% load bootstrap3 %}
-    {% load static %}
-    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">-->
-    <link rel="stylesheet" href='{% static "css/superhero-bootstrap.min.css" %}'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href='https://bootswatch.com/4/superhero/bootstrap.min.css'>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="mine-mf">
         {% if request.user.is_authenticated %}
-      <a class="navbar-brand" href="#">Welcome {{ request.user.username }}!</a>
+      <a class="navbar-brand">Welcome {{ request.user.username }}!</a>
         {% else %}
-      <a class="navbar-brand" href="#">Welcome!</a>
+      <a class="navbar-brand">Welcome!</a>
         {% endif %}
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -25,6 +27,12 @@
             <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
           </li>
             {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'library' %}">My Albums</a>
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}">Logout</a>
           </li>

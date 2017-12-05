@@ -1,0 +1,16 @@
+{% extends 'django_imager/base.html' %}
+{% block title%}{{ photo.title }}{% endblock %}
+
+{% block content %}
+<div style='text-align: center;'>
+  {% if photo.title %}
+  <p>{{ photo.title }}</p>
+  {% endif %}
+  <img src="{{ MEDIA_URL }}{{ photo.image_file }}">
+  {% if photo.description %}
+  <p>{{ photo.description }}</p>
+  {% endif %}
+  <p>{{ photo.date_uploaded }}</p>
+</div>
+
+{% endblock %}
