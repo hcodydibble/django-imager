@@ -26,7 +26,6 @@ class UserFactory(factory.django.DjangoModelFactory):
 
 
 class ProfileTestCase(TestCase):
-<<<<<<< HEAD
 
     def setUp(self):
         self.user = UserFactory.create()
