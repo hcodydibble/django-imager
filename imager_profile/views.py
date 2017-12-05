@@ -11,10 +11,12 @@ def profile_view(request, user_search=None):
         username = request.user.username
     user = User.objects.get(username=username)
     profile = user.profile
-    photos = []
-    albums = profile.user.album.all()
-    for item in albums:
-        for photo in item.photo_set.all():
-            photos.append(photo)
-    photo_count = len(photos)
-    return render(request, 'django_imager/profile.html', {'profile': profile, 'count': photo_count})
+    private_album_count = profile.user.album.filter(published='PRIVATE').count()
+    private_photo_count = profile.user.photo.filter(published='PRIVATE').count()
+    public_album_count = profile.user.album.filter(published='PUBLIC').count()
+    public_photo_count = profile.user.photo.filter(published='PUBLIC').count()
+    return render(request, 'django_imager/profile.html', {'profile': profile,
+                                                          'ppho': private_photo_count,
+                                                          'palb': private_album_count,
+                                                          'pubpho': public_photo_count,
+                                                          'pubalb': public_album_count})

@@ -1,0 +1,9 @@
+{% extends 'django_imager/base.html' %}
+
+{% block content %}
+{% for photo in photo_list %}
+    <div style='text-align: center;'>
+        <img src="{{MEDIA_URL}}{{ photo.image_file }}" style='width: 200px; height: 200px;'/>
+    </div>
+{% endfor %}
+{% endblock %}

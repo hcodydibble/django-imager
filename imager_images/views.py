@@ -2,7 +2,6 @@
 
 from imager_images.models import Album, Photo
 from django.views.generic import ListView, DetailView
-from django.contrib.auth.models import User
 
 class LibraryView(ListView):
     """The library view."""
@@ -10,6 +9,11 @@ class LibraryView(ListView):
     template_name = 'django_imager/library.html'
     model = Album
     exclude = []
+
+    def get_queryset(self):
+        qs = super(LibraryView, self).get_queryset()
+        qs = qs.filter(user__username=self.request.user)
+        return qs
 
 
 
@@ -35,3 +39,23 @@ class PhotoView(DetailView):
     template_name = 'django_imager/photo.html'
     model = Photo
     exclude = []
+
+
+class PublicPhotos(ListView):
+    template_name = 'django_imager/public_photo.html'
+    model = Photo
+
+    def get_queryset(self):
+        qs = super(PublicPhotos, self).get_queryset()
+        qs = qs.filter(published='PUBLIC')
+        return qs
+
+
+class PublicAlbums(ListView):
+    template_name = 'django_imager/public_album.html'
+    model = Album
+
+    def get_queryset(self):
+        qs = super(PublicAlbums, self).get_queryset()
+        qs = qs.filter(published='PUBLIC')
+        return qs

@@ -20,7 +20,7 @@ class Album(models.Model):
     date_modified = models.DateTimeField(auto_now_add=True)
     date_published = models.DateTimeField(null=True)
     published = models.CharField(max_length=200, choices=PUBLISH_CHOICES, default=PRIV)
-    cover = ImageField(upload_to='django_imager/MEDIA', null=True)  # Same as Photo model.
+    cover = ImageField(upload_to='django_imager/MEDIA', null=True, blank=True)  # Same as Photo model.
     user = models.ForeignKey(User, related_name='album', on_delete=models.CASCADE, null=True)
 
 class Photo(models.Model):

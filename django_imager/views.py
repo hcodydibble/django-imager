@@ -8,5 +8,4 @@ def home_view(request):
     """The home view."""
     list_images = Photo.objects.all()
     choice = random.choice(list_images).image_file
-    import pdb; pdb.set_trace()
     return render(request, 'django_imager/homepage.html', {'choice': choice})
