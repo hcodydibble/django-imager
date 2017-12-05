@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'django_imager',
     'imager_profile',
+    'sorl'
 ]
 
 MIDDLEWARE = [
