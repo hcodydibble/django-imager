@@ -1,7 +1,23 @@
 {% extends 'django_imager/base.html' %}
+
 {% block title%}{{ album.title }}{% endblock %}
+
 {% block content %}
-{% for photo in photos %}
-<img src="{{ photo.image_file }}">
-{% endfor %}
+<div class="centered">
+    <img src="{{ MEDIA_URL }}{{ album.cover }}" title="{{ album.title }}" style="width: 20%; height: 20%;">
+    <h3 class="">
+      {{ album.title }}
+    </h3>
+    {% if photos %}
+    {% for photo in photos %}
+    <div style='text-align: center; display: inline-block;'>
+        <a href="{% url 'photo' pk=photo.id %}"><img src="{{ MEDIA_URL }}{{ photo.image_file }}" title="{{ photo.title }}" style='width: 200px; height: 200px; margin-top: 10px;'></a>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div style='text-align: center; display: inline-block;'>
+        <h3>No photos in this album!</h3>
+    </div>
+    {% endif %}
+</div>
 {% endblock %}

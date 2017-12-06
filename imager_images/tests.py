@@ -29,10 +29,8 @@ class UserFactory(factory.django.DjangoModelFactory):
 
 
 class ProfileTestCase(TestCase):
-    """."""
 
     def setUp(self):
-        """."""
         self.user = UserFactory.create()
         self.user.album.create(title='Title',
                                description='This is my album.',
@@ -42,11 +40,9 @@ class ProfileTestCase(TestCase):
                                image_file='django_imager/MEDIA/ryan.jpg')
 
     def tearDown(self):
-        """."""
         User.objects.get(username='bob').delete()
 
     def test_bob_album_title_exists(self):
-        """."""
         album = self.user.album.get(title='Title')
         assert album.title == 'Title'
 

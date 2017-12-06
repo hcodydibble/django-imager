@@ -45,13 +45,13 @@ class ImagerProfile(models.Model):
     camera = models.CharField(max_length=15, choices=CAMERA_CHOICES)
     services = multi(choices=SERVICE_CHOICES, max_choices=2)
     bio = models.TextField(max_length=200, blank=True, null=True)
+    photo_style = multi(choices=STYLE_CHOICES, max_choices=3)
     phone = models.CharField(max_length=12, blank=True, null=True)
-    photo_style = models.CharField(max_length=20, choices=STYLE_CHOICES)
     user = models.OneToOneField(User, related_name='profile')
     active = ProfileManager()
     objects = models.Manager()
 
-    @property
+    @property  # pragma no cover
     def is_active(self):
         """."""
         return self.user.is_active

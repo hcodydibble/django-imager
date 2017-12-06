@@ -1,7 +1,43 @@
 """Library view."""
 
 from imager_images.models import Album, Photo
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
+from django.contrib.auth.models import User
+from .forms import NewPhotoForm
+
+
+class AlbumFormView(CreateView):
+    """docstring for AlbumForm."""
+
+    model = Album
+    template_name = 'django_imager/new_album.html'
+    fields = ['title', 'description', 'cover', 'published']
+    success_url = 'library'
+
+    def post(self, request, *args, **kwargs):
+        """."""
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+
+class PhotoFormView(CreateView):
+    """docstring for AlbumForm."""
+    model = Photo
+    template_name = 'django_imager/new_photo.html'
+    fields = ['title', 'description', 'image_file', 'published', 'album']
+    from_class = NewPhotoForm
+    success_url = 'library'
+
+    def post(self, request, *args, **kwargs):
+        """."""
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
 
 
 class LibraryView(ListView):
@@ -30,7 +66,7 @@ class AlbumView(ListView):
         queryset = Album.objects.filter(id=self.kwargs['pk'])
         album = queryset.get()
         photos = album.photo_set.all()
-        return {'photos': photos}
+        return {'photos': photos, 'album': album}
 
 
 class PhotoView(DetailView):
@@ -39,7 +75,7 @@ class PhotoView(DetailView):
     template_name = 'django_imager/photo.html'
     model = Photo
     exclude = []
-
+    
 
 class PublicPhotos(ListView):
     """."""

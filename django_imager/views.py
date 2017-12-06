@@ -1,13 +1,17 @@
 """Views for the Django Imager Site."""
 import random
-from django.shortcuts import render
-from imager_images.models import Photo
+import os
+from django.conf import settings
+from django.views.generic import TemplateView
 
 
-def home_view(request):
-    """The home view."""
-    list_images = Photo.objects.all()
-    if list_images:
-        choice = random.choice(list_images).image_file
-    choice = 'ryan.jpg'
-    return render(request, 'django_imager/homepage.html', {'choice': choice})
+class HomeView(TemplateView):
+    """Class for the home view."""
+    template_name = 'django_imager/homepage.html'
+
+
+    def get_context_data(self):
+        super(HomeView, self).get_context_data()
+        list_images = os.listdir(path=settings.MEDIA_ROOT)
+        choice = random.choice(list_images)
+        return {'choice': choice}
