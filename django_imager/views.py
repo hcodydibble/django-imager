@@ -8,7 +8,6 @@ class HomeView(TemplateView):
     """Class for the home view."""
     template_name = 'django_imager/homepage.html'
 
-
     def get_context_data(self):
         super(HomeView, self).get_context_data()
         list_images = Photo.objects.filter(published='PUBLIC')
