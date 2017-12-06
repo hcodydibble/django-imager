@@ -14,7 +14,7 @@ class AlbumFormView(CreateView):
     fields = ['title', 'description', 'cover', 'published']
     success_url = 'library'
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):  # pragma: no cover
         """."""
         form = self.get_form()
         if form.is_valid():
@@ -31,7 +31,7 @@ class PhotoFormView(CreateView):
     from_class = NewPhotoForm
     success_url = 'library'
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):  # pragma: no cover
         """."""
         form = self.get_form()
         if form.is_valid():

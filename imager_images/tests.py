@@ -12,7 +12,7 @@ from .models import Photo, Album
 
 import factory
 
-from django_imager.views import home_view
+from django_imager.views import HomeView
 
 from .views import LibraryView, AlbumView, PhotoView, PublicPhotos, PublicAlbums
 
@@ -93,8 +93,8 @@ class ProfileTestCase(TestCase):
 
     def test_home_view_has_title(self):
         """."""
-        response = home_view('/')
-        assert b'<title>IMAGER</title>' in response.content
+        response = HomeView()
+        assert response.template_name == 'django_imager/homepage.html'
 
     def test_library_view_correct_template(self):
         """."""
