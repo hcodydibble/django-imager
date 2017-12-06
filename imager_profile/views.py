@@ -7,7 +7,7 @@ def profile_view(request, user_search=None):
     """The profile view."""
     if user_search:
         username = user_search
-    else:
+    else:  # pragma no cover
         username = request.user.username
     user = User.objects.get(username=username)
     profile = user.profile

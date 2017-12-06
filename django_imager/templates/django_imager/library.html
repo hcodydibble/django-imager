@@ -2,15 +2,17 @@
 {% load static %}
 
 {% block content %}
-{% for album in album_list %}
-    {% if album.cover %}
-    <div style='text-align: center;'>
-        <img src="{{MEDIA_URL}}{{ album.cover }}" style='width: 200px; height: 200px;'/>
-    </div>
-    {% else %}
-    <div style='text-align: center;'>
-        <img src="{% static 'imgs/travolta.gif' %}" style='width: 200px; height: 200px;'/>
-    </div>
-    {% endif %}
-{% endfor %}
+{% if album_list %}
+  {% for album in album_list %}
+      {% if album.cover %}
+      <div style='text-align: center;'>
+          <img src="{{MEDIA_URL}}{{ album.cover }}" style='width: 200px; height: 200px;'/>
+      </div>
+      {% else %}
+      <div style='text-align: center;'>
+          <img src="{% static 'imgs/travolta.gif' %}" style='width: 200px; height: 200px;'/>
+      </div>
+      {% endif %}
+  {% endfor %}
+{% endif %}
 {% endblock %}
