@@ -11,6 +11,7 @@
   <p>{{ photo.description }}</p>
   {% endif %}
   <p>{{ photo.date_uploaded }}</p>
+  <a href="{% url 'photo_edit' pk=photo.id %}"><button class='btn btn-primary luul'>Edit</button><a/>
 </div>
 
 {% endblock %}

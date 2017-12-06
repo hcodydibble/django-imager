@@ -1,7 +1,15 @@
 """Images URLS."""
 
 from django.conf.urls import url
-from imager_images.views import LibraryView, AlbumView, PhotoView, AlbumFormView, PhotoFormView, PublicPhotos, PublicAlbums, AlbumEditView
+from imager_images.views import (LibraryView,
+                                 AlbumView,
+                                 PhotoView,
+                                 AlbumFormView,
+                                 PhotoFormView,
+                                 PublicPhotos,
+                                 PublicAlbums,
+                                 AlbumEditView,
+                                 PhotoEditView)
 
 urlpatterns = [
     url(r'library', LibraryView.as_view(), name='library'),
@@ -10,7 +18,7 @@ urlpatterns = [
     url(r'^albums/(?P<pk>\d+)/edit', AlbumEditView.as_view(), name='album_edit'),
 
     url(r'^photo/(?P<pk>\d+)', PhotoView.as_view(), name='photo'),
-    url(r'^photo/(?P<pk>\d+)/edit', PhotoView.as_view(), name='photo'),
+    url(r'^photos/(?P<pk>\d+)/edit', PhotoEditView.as_view(), name='photo_edit'),
 
     url(r'^album/add$', AlbumFormView.as_view(), name='new_album'),
     url(r'^photo/add$', PhotoFormView.as_view(), name='new_photo'),

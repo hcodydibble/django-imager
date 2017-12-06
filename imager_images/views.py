@@ -2,7 +2,7 @@
 
 from imager_images.models import Album, Photo
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from .forms import NewPhotoForm, UpdateAlbum
+from .forms import NewPhotoForm, UpdateAlbum, UpdatePhoto
 
 
 class AlbumFormView(CreateView):
@@ -28,7 +28,6 @@ class AlbumEditView(UpdateView):
     model = Album
     template_name = 'django_imager/edit_album.html'
     form_class = UpdateAlbum
-    # fields = ['title', 'description', 'cover', 'published']
     success_url = 'library'
 
     def get_object(self, queryset=None):
@@ -57,6 +56,24 @@ class PhotoFormView(CreateView):
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
+
+
+class PhotoEditView(UpdateView):
+    """docstring for PhotoEditView."""
+
+    model = Photo
+    template_name = 'django_imager/edit_photo.html'
+    form_class = UpdatePhoto
+    success_url = 'library'
+
+    def get_object(self, queryset=None):
+        """."""
+        album = Photo.objects.get(id=self.kwargs['pk'])
+        return album
+
+    def form_valid(self, form):
+        """."""
+        return super(PhotoEditView, self).form_valid(form)
 
 
 class LibraryView(ListView):

@@ -30,3 +30,13 @@ class UpdateAlbum(forms.ModelForm):
 
         model = Album
         exclude = []
+
+
+class UpdatePhoto(forms.ModelForm):
+    """docstring for UpdatePhoto."""
+
+    class Meta:
+        """."""
+
+        model = Photo
+        exclude = []
