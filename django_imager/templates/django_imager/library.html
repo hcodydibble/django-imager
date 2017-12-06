@@ -1,16 +1,26 @@
 {% extends 'django_imager/base.html' %}
 
+{% load static %}
+
 {% block title%}Library{% endblock %}
 
 {% block content %}
 <div class="centered">
 {% if album_list %}
 {% for album in album_list %}
+    {% if album.cover %}
     <div style='text-align: center; display: inline-block;'>
         <a href="{% url 'album' pk=album.id %}"><img src="{{ MEDIA_URL }}{{ album.cover }}" style='width: 200px; height: 200px; margin-top: 10px;'/></a>
         <p class="colorr">{{ album.title }}</p>
         <button class='btn btn-primary luul'>Edit</button>
     </div>
+    {% else %}
+    <div style='text-align: center; display: inline-block;'>
+        <a href="{% url 'album' pk=album.id %}"><img src="{% static 'imgs/travolta.gif' %}" style='width: 200px; height: 200px; margin-top: 10px;'/></a>
+        <p class="colorr">{{ album.title }}</p>
+        <button class='btn btn-primary luul'>Edit</button>
+    </div>
+    {% endif %}
 {% endfor %}
 {% endif %}
 </div>

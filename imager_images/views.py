@@ -2,7 +2,6 @@
 
 from imager_images.models import Album, Photo
 from django.views.generic import ListView, DetailView, CreateView
-from django.contrib.auth.models import User
 from .forms import NewPhotoForm
 
 
@@ -50,7 +49,7 @@ class LibraryView(ListView):
     def get_queryset(self):  # pragma no cover
         """."""
         qs = super(LibraryView, self).get_queryset()
-        qs = qs.filter(user__username=self.kwargs.user)
+        qs = qs.filter(user__username=self.request.user.username)
         return qs
 
 

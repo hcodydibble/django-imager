@@ -15,10 +15,12 @@ class ProfileView(TemplateView):
             username = self.request.user.username  # pragma: no cover
         user = User.objects.get(username=username)
         profile = user.profile
-        photos = []
-        albums = profile.user.album.all()
-        for item in albums:
-            for photo in item.photo_set.all():
-                photos.append(photo)  # pragma: no cover
-        photo_count = len(photos)
-        return {'profile': profile, 'count': photo_count}
+        public_album_count = profile.user.album.filter(published='PUBLIC').count()
+        public_photo_count = profile.user.photo.filter(published='PUBLIC').count()
+        private_album_count = profile.user.album.filter(published='PRIVATE').count()
+        private_photo_count = profile.user.photo.filter(published='PRIVATE').count()
+        return {'profile': profile,
+                'pubpho': public_photo_count,
+                'ppho': private_photo_count,
+                'pubalb': public_album_count,
+                'palb': private_album_count}

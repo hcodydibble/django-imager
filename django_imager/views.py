@@ -1,8 +1,7 @@
 """Views for the Django Imager Site."""
 import random
-import os
-from django.conf import settings
 from django.views.generic import TemplateView
+from imager_images.models import Photo
 
 
 class HomeView(TemplateView):
@@ -12,6 +11,6 @@ class HomeView(TemplateView):
 
     def get_context_data(self):
         super(HomeView, self).get_context_data()
-        list_images = os.listdir(path=settings.MEDIA_ROOT)
+        list_images = Photo.objects.filter(published='PUBLIC')
         choice = random.choice(list_images)
         return {'choice': choice}
