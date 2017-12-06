@@ -24,14 +24,20 @@
       <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="{% url 'home' %}">Home</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'public_albums' %}">Albums</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'public_photos' %}">Photos</a>
           </li>
             {% if request.user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'profile' %}">Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'library' %}">My Albums</a>
+            <a class="nav-link" href="{% url 'library' %}">My Album</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}">Logout</a>
@@ -51,4 +57,5 @@
     </nav>
     {% block content %}{% endblock %}
 </body>
+<script type="text/javascript" src="{% static 'js/app.js' %}"></script>
 </html>

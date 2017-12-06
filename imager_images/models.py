@@ -27,6 +27,7 @@ class Album(models.Model):
     user = models.ForeignKey(User, related_name='album', on_delete=models.CASCADE, null=True)
 
     def __str__(self):  # pragma no cover
+        """."""
         return self.title
 
 

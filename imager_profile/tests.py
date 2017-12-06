@@ -12,6 +12,8 @@ from django.test import Client
 
 from .models import ImagerProfile as IP
 
+from imager_images.views import LibraryView
+
 
 class UserFactory(factory.django.DjangoModelFactory):
     """."""
@@ -150,7 +152,6 @@ class ProfileTestCase(TestCase):
         """test_profile_view_shows_."""
         self.client.post('/login/', {'username': 'bob', 'password': '7890uiop'})
         response = self.client.get('/profile')
-        # import pdb; pdb.set_trace()
         assert response.content == b''
 
     def test_user_is_active(self):
@@ -165,3 +166,12 @@ class ProfileTestCase(TestCase):
         """."""
         self.bill = User2Factory.create()
         assert IP.active.all().count() == 2
+
+    def test_library_view_get_queryset(self):
+        """."""
+        bob = self.client.post('/login/',
+                               {'username': 'bob', 'password': '7890uiop'})
+        response = LibraryView()
+        assert response.template_name == 'django_imager/library.html'
+
+    

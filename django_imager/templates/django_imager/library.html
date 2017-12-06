@@ -4,6 +4,7 @@
 
 {% block content %}
 <div class="centered">
+{% if album_list %}
 {% for album in album_list %}
     <div style='text-align: center; display: inline-block;'>
         <a href="{% url 'album' pk=album.id %}"><img src="{{ MEDIA_URL }}{{ album.cover }}" style='width: 200px; height: 200px; margin-top: 10px;'/></a>
@@ -11,6 +12,7 @@
         <button class='btn btn-primary luul'>Edit</button>
     </div>
 {% endfor %}
+{% endif %}
 </div>
 <div style='text-align: center; margin-top: 13px;'>
     <a href="{% url 'new_album' %}"><button class='btn btn-primary' type="button" >Create Album</button></a>

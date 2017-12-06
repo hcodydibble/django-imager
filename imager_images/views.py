@@ -14,7 +14,7 @@ class AlbumFormView(CreateView):
     fields = ['title', 'description', 'cover', 'published']
     success_url = 'library'
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):  # pragma: no cover
         """."""
         form = self.get_form()
         if form.is_valid():
@@ -31,7 +31,7 @@ class PhotoFormView(CreateView):
     from_class = NewPhotoForm
     success_url = 'library'
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):  # pragma: no cover
         """."""
         form = self.get_form()
         if form.is_valid():
@@ -47,6 +47,12 @@ class LibraryView(ListView):
     model = Album
     exclude = []
 
+    def get_queryset(self):  # pragma no cover
+        """."""
+        qs = super(LibraryView, self).get_queryset()
+        qs = qs.filter(user__username=self.kwargs.user)
+        return qs
+
 
 class AlbumView(ListView):
     """docstring for AlbumView."""
@@ -55,7 +61,7 @@ class AlbumView(ListView):
     model = Album
     exclude = []
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs):  # pragma no cover
         """."""
         queryset = Album.objects.filter(id=self.kwargs['pk'])
         album = queryset.get()
@@ -69,3 +75,29 @@ class PhotoView(DetailView):
     template_name = 'django_imager/photo.html'
     model = Photo
     exclude = []
+    
+
+class PublicPhotos(ListView):
+    """."""
+
+    template_name = 'django_imager/public_photo.html'
+    model = Photo
+
+    def get_queryset(self):
+        """."""
+        qs = super(PublicPhotos, self).get_queryset()
+        qs = qs.filter(published='PUBLIC')
+        return qs
+
+
+class PublicAlbums(ListView):
+    """."""
+
+    template_name = 'django_imager/public_album.html'
+    model = Album
+
+    def get_queryset(self):
+        """."""
+        qs = super(PublicAlbums, self).get_queryset()
+        qs = qs.filter(published='PUBLIC')
+        return qs

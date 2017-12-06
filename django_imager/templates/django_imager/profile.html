@@ -29,13 +29,12 @@
     </li>
 </ul>
 
-<ul>
-    <li>total photo count: {{ count }}</li>
-</ul>
-
 {% if request.user.username == profile.user.username %}
-<button>Delete Everything</button>
+<p>public total photo count: {{ pubpho }}</p>
+<p>private photo count: {{ ppho }}</p>
+<p>public album count: {{ pubalb }}</p>
+<p>private album count: {{ palb }}</p>
 {% else %}
-  <a href="{% url 'library' %}">Link to this users albums.</a>
+<p>Link to this users albums.</p>
 {% endif %}
 {% endblock %}

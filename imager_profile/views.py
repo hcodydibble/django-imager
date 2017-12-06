@@ -12,13 +12,13 @@ class ProfileView(TemplateView):
         if kwargs:
             username = kwargs['user_search']
         else:
-            username = self.request.user.username
+            username = self.request.user.username  # pragma: no cover
         user = User.objects.get(username=username)
         profile = user.profile
         photos = []
         albums = profile.user.album.all()
         for item in albums:
             for photo in item.photo_set.all():
-                photos.append(photo)
+                photos.append(photo)  # pragma: no cover
         photo_count = len(photos)
         return {'profile': profile, 'count': photo_count}
