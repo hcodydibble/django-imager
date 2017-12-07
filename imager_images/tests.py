@@ -14,7 +14,11 @@ import factory
 
 from django_imager.views import HomeView
 
-from .views import LibraryView, AlbumView, PhotoView, PublicPhotos, PublicAlbums
+from django.test import Client
+
+# from rest_framework.test import APIRequestFactory, force_authenticate
+
+from .views import LibraryView, AlbumView, PhotoView, PublicPhotos, PublicAlbums, AlbumEditView
 
 class UserFactory(factory.django.DjangoModelFactory):
     """."""
@@ -32,12 +36,31 @@ class ProfileTestCase(TestCase):
 
     def setUp(self):
         self.user = UserFactory.create()
+        self.user.set_password('7890uiop')
+        self.user.save()
         self.user.album.create(title='Title',
                                description='This is my album.',
                                )
         self.user.photo.create(title='A photo',
                                description='This is a photo.',
                                image_file='django_imager/MEDIA/ryan.jpg')
+
+        self.chris = User.objects.create_superuser('chris', 'c@c.com', '7890uiop')
+        self.client.login(username='chris', password='7890uiop')
+        # self.session = self.client.session
+        # session['documents_to_share_ids'] = [2]
+        # session.save()
+        # # Using the standard RequestFactory API to create a form POST request
+        # self.factory = APIRequestFactory()
+        # from tastypie.test import TestApiClient
+        #     client = TestApiClient()
+        #
+        #     response = client.post('/api/v1/entry/', data={
+        #         'created': '2012-05-01T20:02:36',
+        #         'slug': 'another-post',
+        #         'title': 'Another Post',
+        #         'user': '/api/v1/user/1/',
+        #     })
 
     def tearDown(self):
         User.objects.get(username='bob').delete()
@@ -90,6 +113,20 @@ class ProfileTestCase(TestCase):
         """test_profile_view_shows_bob."""
         response = self.client.get('/profile/bob')
         assert b'<li>username: bob</li>' in response.content
+
+    def test_album_edit_(self):
+        """."""
+        from rest_framework.authtoken.models import Token
+        from rest_framework.test import APIClient
+        client = APIClient()
+
+        response = self.client.post('/login/', username='bob', password='7890uiop')
+        token = response.cookies['csrftoken'].value
+        # client.credentials(HTTP_AUTHORIZATION='Token ' + token)
+        # client.force_authenticate(user=self.user)
+        # , {'title': 'real title'}, token={'X-CSRFToken': token}
+        response = self.client.get('/images/album/3/edit')
+        assert response.status_code == 200
 
     def test_home_view_has_title(self):
         """."""

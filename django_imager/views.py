@@ -13,6 +13,6 @@ class HomeView(TemplateView):
         """."""
         super(HomeView, self).get_context_data()
         list_images = Photo.objects.filter(published='PUBLIC')
-        if list_images:
+        if list_images:  # pragma no cover
             choice = random.choice(list_images)
             return {'choice': choice}

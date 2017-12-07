@@ -30,12 +30,12 @@ class AlbumEditView(UpdateView):
     form_class = UpdateAlbum
     success_url = 'library'
 
-    def get_object(self, queryset=None):
+    def get_object(self, **kwargs):  # pragma no cover
         """."""
         album = Album.objects.get(id=self.kwargs['pk'])
         return album
 
-    def form_valid(self, form):
+    def form_valid(self, form):  # pragma no cover
         """."""
         return super(AlbumEditView, self).form_valid(form)
 
@@ -66,12 +66,12 @@ class PhotoEditView(UpdateView):
     form_class = UpdatePhoto
     success_url = 'library'
 
-    def get_object(self, queryset=None):
+    def get_object(self, queryset=None):  # pragma no cover
         """."""
         album = Photo.objects.get(id=self.kwargs['pk'])
         return album
 
-    def form_valid(self, form):
+    def form_valid(self, form):  # pragma no cover
         """."""
         return super(PhotoEditView, self).form_valid(form)
 
