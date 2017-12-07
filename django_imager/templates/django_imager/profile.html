@@ -34,6 +34,7 @@
 <p>private photo count: {{ ppho }}</p>
 <p>public album count: {{ pubalb }}</p>
 <p>private album count: {{ palb }}</p>
+<a href="{% url 'profile_edit' pk=user.id %}"><button class='btn btn-primary luul'>Edit</button><a/>
 {% else %}
 <p>Link to this users albums.</p>
 {% endif %}
