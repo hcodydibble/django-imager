@@ -1,8 +1,9 @@
 """."""
 from django.views.generic import TemplateView, UpdateView
-from django.contrib.auth import get_user_model
+from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
-from .forms import UpdateUser
+from .forms import UpdateUserForm
 from .models import ImagerProfile
 
 
@@ -12,11 +13,8 @@ class ProfileView(TemplateView):
     model = User
     template_name = 'django_imager/profile.html'
 
-    def get_context_data(self, **kwargs):
-        if kwargs:
-            username = kwargs['user_search']
-        else:
-            username = self.request.user.username  # pragma: no cover
+    def get_context_data(self):
+        username = self.request.user.username  # pragma: no cover
         user = User.objects.get(username=username)
         profile = user.profile
         public_album_count = profile.user.album.filter(published='PUBLIC').count()
@@ -30,48 +28,47 @@ class ProfileView(TemplateView):
                 'palb': private_album_count}
 
 
+class AltProfileView(TemplateView):
+    """Class view for profiles that aren't the logged in user."""
+
+    model = User
+    template_name = 'django_imager/profile.html'
+
+    def get_context_data(self, **kwargs):
+        username = kwargs['user_search']
+        user = User.objects.get(username=username)
+        profile = user.profile
+        public_album_count = profile.user.album.filter(published='PUBLIC').count()
+        public_photo_count = profile.user.photo.filter(published='PUBLIC').count()
+        private_album_count = profile.user.album.filter(published='PRIVATE').count()
+        private_photo_count = profile.user.photo.filter(published='PRIVATE').count()
+        return {'profile': profile,
+                'pubpho': public_photo_count,
+                'ppho': private_photo_count,
+                'pubalb': public_album_count,
+                'palb': private_album_count}
+
+
+
 class ProfileEditView(UpdateView):
     """docstring for ProfileEditView."""
-    user = get_user_model()
-    import pdb; pdb.set_trace()
-    model = user
+
+    model = ImagerProfile
     template_name = 'django_imager/edit_profile.html'
-    form_class = UpdateUser
-    success_url = '/profile/'
+    success_url = reverse_lazy('profile')
+    form_class = UpdateUserForm
 
-    def get_forms_kwargs(self):
-        kwargs = super(ProfileEditView, self).get_forms_kwargs()
-        kwargs.update(instance={
-            'user': self.object,
-            'profile': self.object.profile,
-            })
-        return kwargs
-    
-    # def get_context_data(self, **kwargs):
-    #     """."""
-    #     context = super(ProfileEditView, self).get_context_data(**kwargs)
-    #     if 'user_form' not in context:
-    #         context['user_form'] = self.form_class(self.request.GET, instance=self.request.user)
-    #     if 'profile_form' not in context:
-    #         context['profile_form'] = self.second_form_class(self.request.GET, instance=self.request.user.profile)
-    #     return context
+    def get_object(self):
+        """Overwrite UpdateView to get logged in users profile."""
+        return self.request.user.profile
 
-    # def get(self, request, *args, **kwargs):
-    #     """."""
-    #     super(ProfileEditView, self).get(request, *args, **kwargs)
-    #     user_form = self.form_class
-    #     profile_form = self.second_form_class
-    #     return self.render_to_response(self.get_context_data(object=self.object, user_form=user_form, profile_form=profile_form))
-
-    # def get_object(self, queryset=None):  # pragma no cover
-    #     """."""
-    #     user = User.objects.get(id=self.kwargs['pk'])
-    #     profile = ImagerProfile.objects.get(id=self.kwargs['pk'])
-    #     return user
-    #
-    # def form_valid(self, form):  # pragma no cover
-    #     """."""
-    #     if all([self.form_class.is_valid(self), self.second_form_class.is_valid(self)]):
-    #         self.form_class.save()
-    #         self.second_form_class.save()
-    #     return self.success_url
+    def form_valid(self, form):
+        """Check that form is valid before editing."""
+        self.object = form.save()
+        self.object.user.username = form.cleaned_data['Username']
+        self.object.user.email = form.cleaned_data['Email']
+        self.object.user.first_name = form.cleaned_data['First name']
+        self.object.user.last_name = form.cleaned_data['Last name']
+        self.object.user.save()
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
