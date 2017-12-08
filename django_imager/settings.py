@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'imager_images',
     'multiselectfield',
     'sorl.thumbnail',
+    'betterforms',
 ]
 
 MIDDLEWARE = [

@@ -1,7 +1,8 @@
 """."""
-from django.contrib.auth.models import User
 from django.views.generic import TemplateView, UpdateView
-from .forms import UpdateProfile, UpdateUser
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
+from .forms import UpdateUser
 from .models import ImagerProfile
 
 
@@ -31,21 +32,28 @@ class ProfileView(TemplateView):
 
 class ProfileEditView(UpdateView):
     """docstring for ProfileEditView."""
-
-    model = User
-    # second_model = User
+    user = get_user_model()
+    import pdb; pdb.set_trace()
+    model = user
     template_name = 'django_imager/edit_profile.html'
     form_class = UpdateUser
-    second_form_class = UpdateProfile
     success_url = '/profile/'
-    #
+
+    def get_forms_kwargs(self):
+        kwargs = super(ProfileEditView, self).get_forms_kwargs()
+        kwargs.update(instance={
+            'user': self.object,
+            'profile': self.object.profile,
+            })
+        return kwargs
+    
     # def get_context_data(self, **kwargs):
     #     """."""
     #     context = super(ProfileEditView, self).get_context_data(**kwargs)
     #     if 'user_form' not in context:
-    #         context['user_form'] = self.form_class(self.request.GET)
+    #         context['user_form'] = self.form_class(self.request.GET, instance=self.request.user)
     #     if 'profile_form' not in context:
-    #         context['profile_form'] = self.second_form_class(self.request.GET)
+    #         context['profile_form'] = self.second_form_class(self.request.GET, instance=self.request.user.profile)
     #     return context
 
     # def get(self, request, *args, **kwargs):
@@ -55,12 +63,15 @@ class ProfileEditView(UpdateView):
     #     profile_form = self.second_form_class
     #     return self.render_to_response(self.get_context_data(object=self.object, user_form=user_form, profile_form=profile_form))
 
-    def get_object(self, queryset=None):  # pragma no cover
-        """."""
-        user = User.objects.get(id=self.kwargs['pk'])
-        profile = ImagerProfile.objects.get(id=self.kwargs['pk'])
-        return user
+    # def get_object(self, queryset=None):  # pragma no cover
+    #     """."""
+    #     user = User.objects.get(id=self.kwargs['pk'])
+    #     profile = ImagerProfile.objects.get(id=self.kwargs['pk'])
+    #     return user
     #
     # def form_valid(self, form):  # pragma no cover
     #     """."""
-    #     return super(ProfileEditView, self).form_valid(form)
+    #     if all([self.form_class.is_valid(self), self.second_form_class.is_valid(self)]):
+    #         self.form_class.save()
+    #         self.second_form_class.save()
+    #     return self.success_url

@@ -1,24 +1,29 @@
 """Update user profile."""
 from django import forms
-from .models import ImagerProfile
 from django.contrib.auth.models import User
+from .models import ImagerProfile
+from betterforms.multiform import MultiModelForm
 
 
-class UpdateProfile(forms.ModelForm):
-    """docstring for UpdateProfile."""
+
+class UserEditForm(forms.ModelForm):
 
     class Meta:
-        """."""
+        models = User
+        fields = ('first_name', 'last_name', 'email')
 
+
+class ProfileEditForm(forms.ModelForm):
+
+    class Meta:
         model = ImagerProfile
         exclude = []
 
 
-class UpdateUser(forms.ModelForm):
+class UpdateUser(MultiModelForm):
     """docstring for UpdateUser."""
 
-    class Meta:
-        """."""
-
-        model = User
-        exclude = []
+    form_classes = {
+        'user': UserEditForm,
+        'profile': ProfileEditForm
+    }
