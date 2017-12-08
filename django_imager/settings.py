@@ -43,9 +43,7 @@ INSTALLED_APPS = [
     'imager_profile',
     'imager_images',
     'multiselectfield',
-    'sorl.thumbnail',
-    'betterforms',
-]
+    'sorl.thumbnail',]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
