@@ -20,5 +20,5 @@ class UpdateUser(forms.ModelForm):
     class Meta:
         """."""
 
-        model = ImagerProfile
+        model = User
         exclude = []

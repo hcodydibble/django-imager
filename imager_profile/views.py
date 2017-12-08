@@ -1,7 +1,7 @@
 """."""
 from django.contrib.auth.models import User
 from django.views.generic import TemplateView, UpdateView
-from .forms import UpdateProfile
+from .forms import UpdateProfile, UpdateUser
 from .models import ImagerProfile
 
 
@@ -32,22 +32,35 @@ class ProfileView(TemplateView):
 class ProfileEditView(UpdateView):
     """docstring for ProfileEditView."""
 
-    model = ImagerProfile
+    model = User
+    # second_model = User
     template_name = 'django_imager/edit_profile.html'
-    form_class = UpdateProfile
+    form_class = UpdateUser
+    second_form_class = UpdateProfile
     success_url = '/profile/'
-
+    #
     # def get_context_data(self, **kwargs):
+    #     """."""
     #     context = super(ProfileEditView, self).get_context_data(**kwargs)
-    #     context['second_model'] = User.objects.get(id=self.kwargs['pk'])
+    #     if 'user_form' not in context:
+    #         context['user_form'] = self.form_class(self.request.GET)
+    #     if 'profile_form' not in context:
+    #         context['profile_form'] = self.second_form_class(self.request.GET)
     #     return context
+
+    # def get(self, request, *args, **kwargs):
+    #     """."""
+    #     super(ProfileEditView, self).get(request, *args, **kwargs)
+    #     user_form = self.form_class
+    #     profile_form = self.second_form_class
+    #     return self.render_to_response(self.get_context_data(object=self.object, user_form=user_form, profile_form=profile_form))
 
     def get_object(self, queryset=None):  # pragma no cover
         """."""
         user = User.objects.get(id=self.kwargs['pk'])
         profile = ImagerProfile.objects.get(id=self.kwargs['pk'])
-        return profile
-
-    def form_valid(self, form):  # pragma no cover
-        """."""
-        return super(ProfileEditView, self).form_valid(form)
+        return user
+    #
+    # def form_valid(self, form):  # pragma no cover
+    #     """."""
+    #     return super(ProfileEditView, self).form_valid(form)
