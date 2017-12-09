@@ -49,7 +49,6 @@ class AltProfileView(TemplateView):
                 'palb': private_album_count}
 
 
-
 class ProfileEditView(UpdateView):
     """docstring for ProfileEditView."""
 

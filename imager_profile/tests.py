@@ -175,3 +175,14 @@ class ProfileTestCase(TestCase):
                                {'username': 'bob', 'password': '7890uiop'})
         response = LibraryView()
         assert response.template_name == 'django_imager/library.html'
+
+    def test_update_profile(self):
+        """."""
+
+        client = Client()
+        user = User
+        user = User.objects.first()
+        client.force_login(user)
+        client.get('/profile/edit/')
+
+        import pdb; pdb.set_trace()

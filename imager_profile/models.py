@@ -9,7 +9,7 @@ R_FIND = 'Range finder'
 TWIN = 'Twin reflex'
 WED = 'WEDDING'
 PAP = 'PAPARAZZI'
-BW = 'BLACK AND WHITE'
+BW = 'BLACK&WHITE'
 COLOR = 'COLOR'
 SHOP = 'PHOTOSHOP'
 
