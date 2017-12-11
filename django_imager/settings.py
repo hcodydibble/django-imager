@@ -24,7 +24,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 LOGIN_REDIRECT_URL = 'home'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'multiselectfield',
     'sorl.thumbnail',
     'dj_database_url',
-    'django-storages',
+    # 'django-storages',
     ]
 
 MIDDLEWARE = [
