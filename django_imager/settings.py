@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'multiselectfield',
     'sorl.thumbnail',
     'dj_database_url',
+    'django-storages',
     ]
 
 MIDDLEWARE = [
