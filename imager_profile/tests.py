@@ -141,6 +141,8 @@ class ProfileTestCase(TestCase):
                                 'email': 'fred@fred.com',
                                 'password1': '7890uiop',
                                 'password2': '7890uiop'})
+        fred = User.objects.get(username='fred')
+        assert fred.username == 'fred'
         assert response.url == '/accounts/register/complete/'
 
     def test_profile_view_shows_bob(self):
@@ -174,4 +176,11 @@ class ProfileTestCase(TestCase):
         response = LibraryView()
         assert response.template_name == 'django_imager/library.html'
 
-    
+    def test_update_profile(self):
+        """."""
+
+        client = Client()
+        user = User
+        user = User.objects.first()
+        client.force_login(user)
+        client.get('/profile/edit/')

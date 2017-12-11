@@ -1,9 +1,8 @@
 """Library view."""
 
 from imager_images.models import Album, Photo
-from django.views.generic import ListView, DetailView, CreateView
-from django.contrib.auth.models import User
-from .forms import NewPhotoForm
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from .forms import NewPhotoForm, UpdateAlbum, UpdatePhoto
 
 
 class AlbumFormView(CreateView):
@@ -23,8 +22,27 @@ class AlbumFormView(CreateView):
             return self.form_invalid(form)
 
 
+class AlbumEditView(UpdateView):
+    """docstring for AlbumEditView."""
+
+    model = Album
+    template_name = 'django_imager/edit_album.html'
+    form_class = UpdateAlbum
+    success_url = 'library'
+
+    def get_object(self, **kwargs):  # pragma no cover
+        """."""
+        album = Album.objects.get(id=self.kwargs['pk'])
+        return album
+
+    def form_valid(self, form):  # pragma no cover
+        """."""
+        return super(AlbumEditView, self).form_valid(form)
+
+
 class PhotoFormView(CreateView):
     """docstring for AlbumForm."""
+
     model = Photo
     template_name = 'django_imager/new_photo.html'
     fields = ['title', 'description', 'image_file', 'published', 'album']
@@ -40,6 +58,24 @@ class PhotoFormView(CreateView):
             return self.form_invalid(form)
 
 
+class PhotoEditView(UpdateView):
+    """docstring for PhotoEditView."""
+
+    model = Photo
+    template_name = 'django_imager/edit_photo.html'
+    form_class = UpdatePhoto
+    success_url = 'library'
+
+    def get_object(self, queryset=None):  # pragma no cover
+        """."""
+        album = Photo.objects.get(id=self.kwargs['pk'])
+        return album
+
+    def form_valid(self, form):  # pragma no cover
+        """."""
+        return super(PhotoEditView, self).form_valid(form)
+
+
 class LibraryView(ListView):
     """The library view."""
 
@@ -50,7 +86,8 @@ class LibraryView(ListView):
     def get_queryset(self):  # pragma no cover
         """."""
         qs = super(LibraryView, self).get_queryset()
-        qs = qs.filter(user__username=self.kwargs.user)
+        if qs.count() > 1:
+            qs = qs.filter(user__username=self.request.user.username)
         return qs
 
 
@@ -75,7 +112,7 @@ class PhotoView(DetailView):
     template_name = 'django_imager/photo.html'
     model = Photo
     exclude = []
-    
+
 
 class PublicPhotos(ListView):
     """."""
