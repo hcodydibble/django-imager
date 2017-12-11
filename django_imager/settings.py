@@ -26,7 +26,7 @@ LOGIN_REDIRECT_URL = 'home'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ec2-52-10-91-51.us-west-2.compute.amazonaws.com']
 
 
 # Application definition

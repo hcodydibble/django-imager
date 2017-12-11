@@ -47,7 +47,7 @@ class ImagerProfile(models.Model):
     bio = models.TextField(max_length=200, blank=True, null=True)
     photo_style = multi(choices=STYLE_CHOICES, max_choices=3)
     phone = models.CharField(max_length=12, blank=True, null=True)
-    user = models.OneToOneField(User, related_name='profile')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     active = ProfileManager()
     objects = models.Manager()
 
