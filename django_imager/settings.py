@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'multiselectfield',
     'sorl.thumbnail',
     'dj_database_url',
-    'storages',
+    # 'storages',
     ]
 
 MIDDLEWARE = [
