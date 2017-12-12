@@ -24,9 +24,11 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 LOGIN_REDIRECT_URL = 'home'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = bool(os.environ.get('DEBUG', ''))
 
-ALLOWED_HOSTS = ['ec2-52-10-91-51.us-west-2.compute.amazonaws.com']
+ALLOWED_HOSTS = [
+    'ec2-52-10-91-51.us-west-2.compute.amazonaws.com',
+    ]
 
 
 # Application definition
@@ -135,11 +137,25 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
+if DEBUG:
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+else:
 # Media file path
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'django_imager/MEDIA/')
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'django_imager/MEDIA/')
+
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID', '')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY', '')
+    AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+    STATICFILES_LOCATION = 'static'
+    STATICFILES_STORAGE = 'django_imager.custom_storages.StaticStorage'
+    STATIC_URL = 'https://{}/{}/'.format(AWS_S3_CUSTOM_DOMAIN, STATICFILES_LOCATION)
+
+    MEDIAFILES_LOCATION = 'media'
+    MEDIAFILES_STORAGE = 'django_imager.custom_storages.MediaStorage'
+    DEFAULT_FILE_STORAGE = 'django_imager.custom_storages.MediaStorage'
+    MEDIA_URL = 'https://{}/{}/'.format(AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
