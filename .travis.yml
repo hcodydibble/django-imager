@@ -9,6 +9,7 @@ service:
 
 before_script:
   - psql -c "create database imager;" -U postgres
+  - export DEBUG=True
 
 install:
   - pip install -r requirements.pip
