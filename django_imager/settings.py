@@ -33,6 +33,23 @@ ALLOWED_HOSTS = [
 
 
 # Application definition
+if not DEBUG:
+    INSTALLED_APPS = [
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+        'bootstrap3',
+        'django_imager',
+        'imager_profile',
+        'imager_images',
+        'multiselectfield',
+        'sorl.thumbnail',
+        'dj_database_url',
+        'storages',
+        ]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -48,7 +65,6 @@ INSTALLED_APPS = [
     'multiselectfield',
     'sorl.thumbnail',
     'dj_database_url',
-    'storages',
     ]
 
 MIDDLEWARE = [
