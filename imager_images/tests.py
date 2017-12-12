@@ -114,19 +114,19 @@ class ProfileTestCase(TestCase):
         response = self.client.get('/profile/bob')
         assert b'<li>username: bob</li>' in response.content
 
-    def test_album_edit_(self):
-        """."""
-        from rest_framework.authtoken.models import Token
-        from rest_framework.test import APIClient
-        client = APIClient()
-
-        response = self.client.post('/login/', username='bob', password='7890uiop')
-        token = response.cookies['csrftoken'].value
-        # client.credentials(HTTP_AUTHORIZATION='Token ' + token)
-        # client.force_authenticate(user=self.user)
-        # , {'title': 'real title'}, token={'X-CSRFToken': token}
-        response = self.client.get('/images/album/3/edit')
-        assert response.status_code == 200
+    # def test_album_edit_(self):
+    #     """."""
+    #     from rest_framework.authtoken.models import Token
+    #     from rest_framework.test import APIClient
+    #     client = APIClient()
+    #
+    #     response = self.client.post('/login/', username='bob', password='7890uiop')
+    #     token = response.cookies['csrftoken'].value
+    #     # client.credentials(HTTP_AUTHORIZATION='Token ' + token)
+    #     # client.force_authenticate(user=self.user)
+    #     # , {'title': 'real title'}, token={'X-CSRFToken': token}
+    #     response = self.client.get('/images/album/3/edit')
+    #     assert response.status_code == 200
 
     def test_home_view_has_title(self):
         """."""
