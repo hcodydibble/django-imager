@@ -4,10 +4,11 @@ from imager_images.models import Album, Photo
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .forms import NewPhotoForm, UpdateAlbum, UpdatePhoto
 from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 
 
-class AlbumFormView(CreateView):
+class AlbumFormView(LoginRequiredMixin, CreateView):
     """docstring for AlbumForm."""
 
     model = Album
@@ -27,7 +28,7 @@ class AlbumFormView(CreateView):
             return self.form_invalid(form)
 
 
-class AlbumEditView(UpdateView):
+class AlbumEditView(LoginRequiredMixin, UpdateView):
     """docstring for AlbumEditView."""
 
     model = Album
@@ -45,7 +46,7 @@ class AlbumEditView(UpdateView):
         return super(AlbumEditView, self).form_valid(form)
 
 
-class PhotoFormView(CreateView):
+class PhotoFormView(LoginRequiredMixin, CreateView):
     """docstring for AlbumForm."""
 
     model = Photo
@@ -66,7 +67,7 @@ class PhotoFormView(CreateView):
             return self.form_invalid(form)
 
 
-class PhotoEditView(UpdateView):
+class PhotoEditView(LoginRequiredMixin, UpdateView):
     """docstring for PhotoEditView."""
 
     model = Photo
@@ -84,7 +85,7 @@ class PhotoEditView(UpdateView):
         return super(PhotoEditView, self).form_valid(form)
 
 
-class LibraryView(ListView):
+class LibraryView(LoginRequiredMixin, ListView):
     """The library view."""
 
     template_name = 'django_imager/library.html'
