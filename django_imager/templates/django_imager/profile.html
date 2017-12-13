@@ -2,6 +2,9 @@
 
 {% block content %}
 
+{% if profile.user.first_name and profile.user.last_name%}
+  <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
+{% endif %}
 <ul>
   <li>username: {{ profile.user.username }}</li>
   <li>email: {{ profile.user.email }}</li>
@@ -34,6 +37,7 @@
 <p>private photo count: {{ ppho }}</p>
 <p>public album count: {{ pubalb }}</p>
 <p>private album count: {{ palb }}</p>
+<a href="{% url 'profile_edit' %}"><button class='btn btn-primary'>Edit</button><a/>
 {% else %}
 <p>Link to this users albums.</p>
 {% endif %}
