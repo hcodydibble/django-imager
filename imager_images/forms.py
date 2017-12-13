@@ -19,7 +19,7 @@ class NewAlbumForm(forms.ModelForm):
         """."""
 
         model = Album
-        exclude = []
+        exclude = ['user']
 
 
 class UpdateAlbum(forms.ModelForm):
@@ -29,7 +29,7 @@ class UpdateAlbum(forms.ModelForm):
         """."""
 
         model = Album
-        exclude = []
+        exclude = ['user']
 
 
 class UpdatePhoto(forms.ModelForm):

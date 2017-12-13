@@ -3,6 +3,8 @@
 from imager_images.models import Album, Photo
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .forms import NewPhotoForm, UpdateAlbum, UpdatePhoto
+from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
 
 
 class AlbumFormView(CreateView):
@@ -15,9 +17,12 @@ class AlbumFormView(CreateView):
 
     def post(self, request, *args, **kwargs):  # pragma: no cover
         """."""
-        form = self.get_form()
-        if form.is_valid():
-            return self.form_valid(form)
+	form = self.get_form()
+	if form.is_valid():
+	    form = form.save()
+	    form.user = User.objects.get(username=request.user.username)
+	    form.save()
+            return HttpResponseRedirect(self.success_url)
         else:
             return self.form_invalid(form)
 
@@ -53,7 +58,10 @@ class PhotoFormView(CreateView):
         """."""
         form = self.get_form()
         if form.is_valid():
-            return self.form_valid(form)
+            form = form.save()
+            form.profile = User.objects.get(username=request.user.username)
+            form.save()
+            return HttpResponseRedirect(self.success_url)
         else:
             return self.form_invalid(form)
 
