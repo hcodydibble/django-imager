@@ -17,11 +17,11 @@ class AlbumFormView(CreateView):
 
     def post(self, request, *args, **kwargs):  # pragma: no cover
         """."""
-	form = self.get_form()
-	if form.is_valid():
-	    form = form.save()
-	    form.user = User.objects.get(username=request.user.username)
-	    form.save()
+        form = self.get_form()
+        if form.is_valid():
+            form = form.save()
+            form.user = User.objects.get(username=request.user.username)
+            form.save()
             return HttpResponseRedirect(self.success_url)
         else:
             return self.form_invalid(form)
