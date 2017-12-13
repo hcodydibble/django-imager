@@ -13,8 +13,8 @@ class ProfileView(TemplateView):
     model = User
     template_name = 'django_imager/profile.html'
 
-    def get_context_data(self):
-        username = self.request.user.username  # pragma: no cover
+    def get_context_data(self):  # pragma: no cover
+        username = self.request.user.username
         user = User.objects.get(username=username)
         profile = user.profile
         public_album_count = profile.user.album.filter(published='PUBLIC').count()
@@ -61,7 +61,7 @@ class ProfileEditView(UpdateView):
         """Overwrite UpdateView to get logged in users profile."""
         return self.request.user.profile
 
-    def form_valid(self, form):
+    def form_valid(self, form):  # pragma: no cover
         """Check that form is valid before editing."""
         self.object = form.save()
         self.object.user.username = form.cleaned_data['Username']

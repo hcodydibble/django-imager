@@ -184,5 +184,3 @@ class ProfileTestCase(TestCase):
         user = User.objects.first()
         client.force_login(user)
         client.get('/profile/edit/')
-
-        import pdb; pdb.set_trace()
