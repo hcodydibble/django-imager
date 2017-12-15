@@ -3,9 +3,9 @@
 {% block content %}
 {% if photo_list %}
   {% for photo in photo_list %}
-      <div style='text-align: center;'>
-          <img src="{{MEDIA_URL}}{{ photo.image_file }}" style='width: 200px; height: 200px;'/>
-      </div>
+    <div style='text-align: center;'>
+      <a href="{% url 'photo' pk=photo.id %}"><img src="{{MEDIA_URL}}{{ photo.image_file }}" style='width: 200px; height: 200px;'/></a>
+    </div>
   {% endfor %}
 {% endif %}
 {% endblock %}

@@ -3,14 +3,8 @@
 
 {% block content %}
 {% for album in album_list %}
-    {% if album.cover %}
-        <div style='text-align: center;'>
-            <img src="{{MEDIA_URL}}{{ album.cover }}" style='width: 200px; height: 200px;'/>
-        </div>
-    {% else %}
-        <div style='text-align: center;'>
-            <img src="{% static 'imgs/travolta.gif' %}" style='width: 200px; height: 200px;'/>
-        </div>
-    {% endif %}
+  <div style='text-align: center;'>
+    <a href="{% url 'album' pk=album.id %}"><img src="{{MEDIA_URL}}{{ album.cover }}" style='width: 200px; height: 200px;'/></a>
+  </div>
 {% endfor %}
 {% endblock %}
