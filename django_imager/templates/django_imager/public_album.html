@@ -2,9 +2,47 @@
 {% load static %}
 
 {% block content %}
-{% for album in album_list %}
+
+{% if albums %}
+<div style='text-align: center;'>
+    <h1 class="header">{% if photos %}<a href="{% url 'albums' %}">{% endif %}Albums</a></h1>
+
+      {% for album in albums %}
+      <div>
+
+        <a href="{% url 'album' pk=album.id %}"><img src="{{MEDIA_URL}}{{ album.cover }}" style='width: 200px; height: 200px;'/></a>
+
+        <h5 class="title">{{ album.title }}</h5>
+      </div>
+      {% endfor %}
+
+  <div style='width: 200px; margin-left: 45%; margin-right: 50%; margin-bottom: 10%;' class="pagination">
+    <div style='text-align: center;'>
+      <h4>Album Pages</h4>
+      <div style='text-align: center;' class="step-links">
+        {% if albums.has_previous %}
+        <div style='text-align: center;' class="page-button">
+            <a style="color: white;" href="?album_page={{ albums.previous_page_number }}?photo_page={{ photos.number }}">previous</a>
+        {% endif %}
+      </div>
+      <div style='text-align: center;' class="current-page">
+          Page {{ albums.number }} of {{ albums.paginator.num_pages }}
+      </div>
+      {% if albums.has_next %}
+      <div style='text-align: center;' class="page-button">
+          <a style="color: white;" href="?album_page={{ albums.next_page_number }}?photo_page={{ photos.number }}">next</a>
+      </div>
+      {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+
+<!-- {% for album in album_list %}
   <div style='text-align: center;'>
     <a href="{% url 'album' pk=album.id %}"><img src="{{MEDIA_URL}}{{ album.cover }}" style='width: 200px; height: 200px;'/></a>
   </div>
-{% endfor %}
+{% endfor %} -->
 {% endblock %}

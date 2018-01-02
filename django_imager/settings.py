@@ -27,6 +27,7 @@ LOGIN_REDIRECT_URL = 'home'
 DEBUG = bool(os.environ.get('DEBUG', ''))
 
 ALLOWED_HOSTS = [
+    '127.0.0.1',
     'ec2-52-10-91-51.us-west-2.compute.amazonaws.com',
     ]
 
@@ -140,8 +141,10 @@ USE_TZ = True
 if DEBUG:
     STATIC_URL = '/static/'
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'django_imager/MEDIA/')
+
 else:
-# Media file path
 
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'django_imager/MEDIA/')

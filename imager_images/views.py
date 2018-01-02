@@ -1,6 +1,7 @@
 """Library view."""
 
 from imager_images.models import Album, Photo
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .forms import NewPhotoForm, UpdateAlbum, UpdatePhoto
 from django.contrib.auth.models import User
@@ -142,8 +143,24 @@ class PublicAlbums(ListView):
     template_name = 'django_imager/public_album.html'
     model = Album
 
-    def get_queryset(self):
-        """."""
-        qs = super(PublicAlbums, self).get_queryset()
-        qs = qs.filter(published='PUBLIC')
-        return qs
+    def get_context_data(self, **kwargs):
+        """Provide context for the view."""
+        context = super(PublicAlbums, self).get_context_data(**kwargs)
+        request = context['view'].request
+        album_list = Album.objects.all()
+        album_list.order_by('id')
+        photo_paginator = Paginator([], 4)
+        album_paginator = Paginator(album_list, 4)
+        if 'album_page' in request.GET:
+            album_page = request.GET.get('album_page').split('?photo_page=')[0]
+        else:
+            album_page = 1
+        context['photos'] = photo_paginator.page(photo_paginator.num_pages)
+        try:
+            context['albums'] = album_paginator.page(album_page)
+        except PageNotAnInteger:
+            context['albums'] = album_paginator.page(1)
+        except EmptyPage:
+            context['albums'] = album_paginator.page(album_paginator.num_pages)
+        # context['album_tags'] = set([tag for album in context['albums'] for tag in album.tags.names()])
+        return context
