@@ -110,10 +110,26 @@ class AlbumView(ListView):
 
     def get_context_data(self, **kwargs):  # pragma no cover
         """."""
+        context = super(AlbumView, self).get_context_data(**kwargs)
+        request = context['view'].request
         queryset = Album.objects.filter(id=self.kwargs['pk'])
         album = queryset.get()
-        photos = album.photo_set.all()
-        return {'photos': photos, 'album': album}
+        context['album'] = album
+        photo_list = album.photo_set.all()
+        photo_list.order_by('id')
+        photo_paginator = Paginator(photo_list, 4)
+        if 'photo_page' in request.GET:
+            photo_page = request.GET.get('photo_page').split('?photo_page=')[0]
+        else:
+            photo_page = 1
+        context['photos'] = photo_paginator.page(photo_paginator.num_pages)
+        try:
+            context['photos'] = photo_paginator.page(photo_page)
+        except PageNotAnInteger:
+            context['photos'] = photo_paginator.page(1)
+        except EmptyPage:
+            context['photos'] = photo_paginator.page(photo_paginator.num_pages)
+        return context
 
 
 class PhotoView(DetailView):
@@ -130,11 +146,25 @@ class PublicPhotos(ListView):
     template_name = 'django_imager/public_photo.html'
     model = Photo
 
-    def get_queryset(self):
-        """."""
-        qs = super(PublicPhotos, self).get_queryset()
-        qs = qs.filter(published='PUBLIC')
-        return qs
+    def get_context_data(self, **kwargs):
+        """Provide context for the view."""
+        context = super(PublicPhotos, self).get_context_data(**kwargs)
+        request = context['view'].request
+        photo_list = Photo.objects.all()
+        photo_list.order_by('id')
+        photo_paginator = Paginator(photo_list, 4)
+        if 'photo_page' in request.GET:
+            photo_page = request.GET.get('photo_page').split('?photo_page=')[0]
+        else:
+            photo_page = 1
+        context['photos'] = photo_paginator.page(photo_paginator.num_pages)
+        try:
+            context['photos'] = photo_paginator.page(photo_page)
+        except PageNotAnInteger:
+            context['photos'] = photo_paginator.page(1)
+        except EmptyPage:
+            context['photos'] = photo_paginator.page(photo_paginator.num_pages)
+        return context
 
 
 class PublicAlbums(ListView):
@@ -162,5 +192,4 @@ class PublicAlbums(ListView):
             context['albums'] = album_paginator.page(1)
         except EmptyPage:
             context['albums'] = album_paginator.page(album_paginator.num_pages)
-        # context['album_tags'] = set([tag for album in context['albums'] for tag in album.tags.names()])
         return context

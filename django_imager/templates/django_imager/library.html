@@ -5,6 +5,10 @@
 {% block title%}Library{% endblock %}
 
 {% block content %}
+<div style='text-align: center; margin-top: 13px;'>
+    <a href="{% url 'new_album' %}"><button class='btn btn-primary' type="button" >Create Album</button></a>
+    <a href="{% url 'new_photo' %}"><button class='btn btn-primary' type="button" >Upload Photo</button></a>
+</div>
 <div class="centered">
 
 {% if album_list %}
@@ -18,8 +22,5 @@
 {% endfor %}
 {% endif %}
 </div>
-<div style='text-align: center; margin-top: 13px;'>
-    <a href="{% url 'new_album' %}"><button class='btn btn-primary' type="button" >Create Album</button></a>
-    <a href="{% url 'new_photo' %}"><button class='btn btn-primary' type="button" >Upload Photo</button></a>
-</div>
+
 {% endblock %}

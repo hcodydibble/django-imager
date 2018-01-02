@@ -1,11 +1,60 @@
 {% extends 'django_imager/base.html' %}
 
 {% block content %}
-{% if photo_list %}
-  {% for photo in photo_list %}
+{% if photos %}
+<div style='text-align: center;'>
+    <h1 class="header">Photos</h1>
     <div style='text-align: center;'>
-      <a href="{% url 'photo' pk=photo.id %}"><img src="{{MEDIA_URL}}{{ photo.image_file }}" style='width: 200px; height: 200px;'/></a>
+      <div style='text-align: center;'>
+        <h4>Photo Pages</h4>
+        <h3 style='text-align: center;'>
+          {% if photos.has_previous %}
+          <div style='text-align: center;'>
+              <a style="color: white;" href="?photo_page={{ photos.previous_page_number }}?photo_page={{ photos.number }}">previous</a>
+          {% endif %}
+        </h3>
+        <div style='text-align: center;'>
+            Page {{ photos.number }} of {{ photos.paginator.num_pages }}
+        </div>
+        {% if photos.has_next %}
+        <div style='text-align: center;'>
+            <a style="color: white;" href="?photo_page={{ photos.next_page_number }}?photo_page={{ photos.number }}">next</a>
+        </div>
+        {% endif %}
+        </div>
+      </div>
     </div>
-  {% endfor %}
+
+    {% for photo in photos %}
+    <div style='text-align: center;'>
+
+      <a href="{% url 'photo' pk=photo.id %}"><img src="{{MEDIA_URL}}{{ photo.image_file }}" style='width: 50%;'/></a>
+
+      <h5 class="title">{{ photo.title }}</h5>
+    </div>
+    {% endfor %}
+
+  <div style='text-align: center; margin-bottom: 5%;'>
+    <div style='text-align: center;'>
+      <h4>Photo Pages</h4>
+      <h3 style='text-align: center;'>
+        {% if photos.has_previous %}
+        <div style='text-align: center;'>
+            <a style="color: white;" href="?photo_page={{ photos.previous_page_number }}?photo_page={{ photos.number }}">previous</a>
+        {% endif %}
+      </h3>
+      <div style='text-align: center;'>
+          Page {{ photos.number }} of {{ photos.paginator.num_pages }}
+      </div>
+      {% if photos.has_next %}
+      <div style='text-align: center;'>
+          <a style="color: white;" href="?photo_page={{ photos.next_page_number }}?photo_page={{ photos.number }}">next</a>
+      </div>
+      {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
 {% endif %}
+
 {% endblock %}
