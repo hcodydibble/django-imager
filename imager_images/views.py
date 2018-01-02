@@ -93,12 +93,25 @@ class LibraryView(LoginRequiredMixin, ListView):
     model = Album
     exclude = []
 
-    def get_queryset(self):  # pragma no cover
-        """."""
-        qs = super(LibraryView, self).get_queryset()
-        if qs.count() > 1:
-            qs = qs.filter(user__username=self.request.user.username)
-        return qs
+    def get_context_data(self, **kwargs):
+        """Provide context for the view."""
+        context = super(LibraryView, self).get_context_data(**kwargs)
+        request = context['view'].request
+
+        album_list = Album.objects.filter(user=self.request.user.id)
+        album_list.order_by('id')
+        album_paginator = Paginator(album_list, 4)
+        if 'album_page' in request.GET:
+            album_page = request.GET.get('album_page').split('?photo_page=')[0]
+        else:
+            album_page = 1
+        try:
+            context['albums'] = album_paginator.page(album_page)
+        except PageNotAnInteger:
+            context['albums'] = album_paginator.page(1)
+        except EmptyPage:
+            context['albums'] = album_paginator.page(album_paginator.num_pages)
+        return context
 
 
 class AlbumView(ListView):

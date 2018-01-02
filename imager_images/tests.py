@@ -16,8 +16,6 @@ from django_imager.views import HomeView
 
 from django.test import Client
 
-# from rest_framework.test import APIRequestFactory, force_authenticate
-
 from .views import LibraryView, AlbumView, PhotoView, PublicPhotos, PublicAlbums, AlbumEditView
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -47,20 +45,6 @@ class ProfileTestCase(TestCase):
 
         self.chris = User.objects.create_superuser('chris', 'c@c.com', '7890uiop')
         self.client.login(username='chris', password='7890uiop')
-        # self.session = self.client.session
-        # session['documents_to_share_ids'] = [2]
-        # session.save()
-        # # Using the standard RequestFactory API to create a form POST request
-        # self.factory = APIRequestFactory()
-        # from tastypie.test import TestApiClient
-        #     client = TestApiClient()
-        #
-        #     response = client.post('/api/v1/entry/', data={
-        #         'created': '2012-05-01T20:02:36',
-        #         'slug': 'another-post',
-        #         'title': 'Another Post',
-        #         'user': '/api/v1/user/1/',
-        #     })
 
     def tearDown(self):
         User.objects.get(username='bob').delete()

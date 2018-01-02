@@ -11,16 +11,62 @@
 </div>
 <div class="centered">
 
-{% if album_list %}
-{% for album in album_list %}
-    <div style='text-align: center; display: inline-block;'>
-        <a href="{% url 'album' pk=album.id %}"><img src="{{ MEDIA_URL }}{{ album.cover }}" style='width: 200px; height: 200px; margin-top: 10px;'/></a>
-        <p class="colorr">{{ album.title }}</p>
+  {% if albums %}
+  <div style='text-align: center;'>
+      <h1 class="header">{% if photos %}<a href="{% url 'albums' %}">{% endif %}Albums</a></h1>
+      <div style='text-align: center;'>
+        <div style='text-align: center;'>
+          <h4>Album Pages</h4>
+          <h3 style='text-align: center;'>
+            {% if albums.has_previous %}
+            <div style='text-align: center;'>
+                <a style="color: white;" href="?album_page={{ albums.previous_page_number }}?photo_page={{ photos.number }}">previous</a>
+            {% endif %}
+          </h3>
+          <div style='text-align: center;'>
+              Page {{ albums.number }} of {{ albums.paginator.num_pages }}
+          </div>
+          {% if albums.has_next %}
+          <div style='text-align: center;'>
+              <a style="color: white;" href="?album_page={{ albums.next_page_number }}?photo_page={{ photos.number }}">next</a>
+          </div>
+          {% endif %}
+          </div>
+        </div>
+      </div>
 
+      {% for album in albums %}
+      <div style="margin-top: 2%; margin-bottom: 2%;">
+
+        <a href="{% url 'album' pk=album.id %}"><img src="{{MEDIA_URL}}{{ album.cover }}" style='width: 50%;'/></a>
+
+        <h5 class="title">{{ album.title }}</h5>
         <a href="{% url 'album_edit' pk=album.id %}"><button class='btn btn-primary luul'>Edit</button><a/>
+      </div>
+      {% endfor %}
+
+    <div style='text-align: center; margin-bottom: 5%;'>
+      <div style='text-align: center;'>
+        <h4>Album Pages</h4>
+        <h3 style='text-align: center;'>
+          {% if albums.has_previous %}
+          <div style='text-align: center;'>
+              <a style="color: white;" href="?album_page={{ albums.previous_page_number }}?photo_page={{ photos.number }}">previous</a>
+          {% endif %}
+        </h3>
+        <div style='text-align: center;'>
+            Page {{ albums.number }} of {{ albums.paginator.num_pages }}
+        </div>
+        {% if albums.has_next %}
+        <div style='text-align: center;'>
+            <a style="color: white;" href="?album_page={{ albums.next_page_number }}?photo_page={{ photos.number }}">next</a>
+        </div>
+        {% endif %}
+        </div>
+      </div>
     </div>
-{% endfor %}
-{% endif %}
+  </div>
+  {% endif %}
 </div>
 
 {% endblock %}
