@@ -14,9 +14,12 @@ import factory
 
 from django_imager.views import HomeView
 
-from django.test import Client
+from django.urls import reverse_lazy
+
+from bs4 import BeautifulSoup
 
 from .views import LibraryView, AlbumView, PhotoView, PublicPhotos, PublicAlbums, AlbumEditView
+
 
 class UserFactory(factory.django.DjangoModelFactory):
     """."""
@@ -31,8 +34,10 @@ class UserFactory(factory.django.DjangoModelFactory):
 
 
 class ProfileTestCase(TestCase):
+    """."""
 
     def setUp(self):
+        """."""
         self.user = UserFactory.create()
         self.user.set_password('7890uiop')
         self.user.save()
@@ -47,9 +52,11 @@ class ProfileTestCase(TestCase):
         self.client.login(username='chris', password='7890uiop')
 
     def tearDown(self):
+        """."""
         User.objects.get(username='bob').delete()
 
     def test_bob_album_title_exists(self):
+        """."""
         album = self.user.album.get(title='Title')
         assert album.title == 'Title'
 
@@ -100,15 +107,7 @@ class ProfileTestCase(TestCase):
 
     def test_album_edit_(self):
         """."""
-        from rest_framework.authtoken.models import Token
-        from rest_framework.test import APIClient
-        client = APIClient()
-
         response = self.client.post('/login/', username='bob', password='7890uiop')
-        token = response.cookies['csrftoken'].value
-        # client.credentials(HTTP_AUTHORIZATION='Token ' + token)
-        # client.force_authenticate(user=self.user)
-        # , {'title': 'real title'}, token={'X-CSRFToken': token}
         response = self.client.get('/images/album/3/edit')
         assert response.status_code == 200
 
@@ -146,3 +145,19 @@ class ProfileTestCase(TestCase):
         """."""
         from django.db.models.query import QuerySet
         assert isinstance(PublicAlbums().get_queryset(), QuerySet)
+
+    def test_individual_album_page_contents(self):
+        """Test that the single album page has content."""
+        self.client.force_login(self.user)
+        alb_id = Album.objects.first().id
+        response = self.client.get(reverse_lazy('album', kwargs={'pk': alb_id}))
+        html = BeautifulSoup(response.content, 'html.parser')
+        self.assertEqual(1, len(html.findAll('img')))
+
+    def test_bad_photo_request_page(self):
+        """Test 404 on pk of photo that does not exist."""
+        self.client.force_login(self.user)
+        pic_id = Photo.objects.first().id + 100
+        response = self.client.get(reverse_lazy('photo',
+                                                kwargs={'pk': pic_id}))
+        self.assertTrue(response.status_code == 404)
