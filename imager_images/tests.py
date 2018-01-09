@@ -41,14 +41,21 @@ class ProfileTestCase(TestCase):
         self.user = UserFactory.create()
         self.user.set_password('7890uiop')
         self.user.save()
-        self.user.album.create(title='Title',
-                               description='This is my album.',
-                               )
-        self.user.photo.create(title='A photo',
-                               description='This is a photo.',
-                               image_file='django_imager/MEDIA/ryan.jpg')
+        self.user.album.create(
+            title='Title',
+            description='This is my album.',
+        )
+        self.user.photo.create(
+            title='A photo',
+            description='This is a photo.',
+            image_file='django_imager/MEDIA/ryan.jpg'
+        )
 
-        self.chris = User.objects.create_superuser('chris', 'c@c.com', '7890uiop')
+        self.chris = User.objects.create_superuser(
+            'chris',
+            'c@c.com',
+            '7890uiop'
+        )
         self.client.login(username='chris', password='7890uiop')
 
     def tearDown(self):
@@ -67,9 +74,10 @@ class ProfileTestCase(TestCase):
 
     def test_add_another_album(self):
         """."""
-        self.user.album.create(title='Title2',
-                               description='This is my second album.',
-                               )
+        self.user.album.create(
+            title='Title2',
+            description='This is my second album.',
+        )
         assert Album.objects.count() == 2
 
     def test_bob_photo_title_exists(self):
@@ -94,22 +102,20 @@ class ProfileTestCase(TestCase):
 
     def test_album_in_album_objects(self):
         """."""
-        assert Album.objects.get(title='Title').description == 'This is my album.'
+        assert Album.objects.get(
+            title='Title'
+        ).description == 'This is my album.'
 
     def test_photo_in_photo_objects(self):
         """."""
-        assert Photo.objects.get(title='A photo').description == 'This is a photo.'
+        assert Photo.objects.get(
+            title='A photo'
+        ).description == 'This is a photo.'
 
     def test_profile_view_shows_bob(self):
         """test_profile_view_shows_bob."""
         response = self.client.get('/profile/bob')
         assert b'<li>username: bob</li>' in response.content
-
-    def test_album_edit_(self):
-        """."""
-        response = self.client.post('/login/', username='bob', password='7890uiop')
-        response = self.client.get('/images/album/3/edit')
-        assert response.status_code == 200
 
     def test_home_view_has_title(self):
         """."""
@@ -150,7 +156,9 @@ class ProfileTestCase(TestCase):
         """Test that the single album page has content."""
         self.client.force_login(self.user)
         alb_id = Album.objects.first().id
-        response = self.client.get(reverse_lazy('album', kwargs={'pk': alb_id}))
+        response = self.client.get(
+            reverse_lazy('album', kwargs={'pk': alb_id})
+        )
         html = BeautifulSoup(response.content, 'html.parser')
         self.assertEqual(1, len(html.findAll('img')))
 
@@ -158,6 +166,7 @@ class ProfileTestCase(TestCase):
         """Test 404 on pk of photo that does not exist."""
         self.client.force_login(self.user)
         pic_id = Photo.objects.first().id + 100
-        response = self.client.get(reverse_lazy('photo',
-                                                kwargs={'pk': pic_id}))
+        response = self.client.get(
+            reverse_lazy('photo', kwargs={'pk': pic_id})
+        )
         self.assertTrue(response.status_code == 404)
