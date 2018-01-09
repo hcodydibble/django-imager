@@ -2,12 +2,13 @@
 from django.views.generic import TemplateView, UpdateView
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from .forms import UpdateUserForm
 from .models import ImagerProfile
 
 
-class ProfileView(TemplateView):
+class ProfileView(LoginRequiredMixin, TemplateView):
     """Class for the profile view."""
 
     model = User
@@ -49,7 +50,7 @@ class AltProfileView(TemplateView):
                 'palb': private_album_count}
 
 
-class ProfileEditView(UpdateView):
+class ProfileEditView(LoginRequiredMixin, UpdateView):
     """docstring for ProfileEditView."""
 
     model = ImagerProfile

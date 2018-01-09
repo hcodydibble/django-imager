@@ -1,11 +1,15 @@
 """Library view."""
 
 from imager_images.models import Album, Photo
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from .forms import NewPhotoForm, UpdateAlbum, UpdatePhoto
+from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect
 
 
-class AlbumFormView(CreateView):
+class AlbumFormView(LoginRequiredMixin, CreateView):
     """docstring for AlbumForm."""
 
     model = Album
@@ -17,12 +21,15 @@ class AlbumFormView(CreateView):
         """."""
         form = self.get_form()
         if form.is_valid():
-            return self.form_valid(form)
+            form = form.save()
+            form.user = User.objects.get(username=request.user.username)
+            form.save()
+            return HttpResponseRedirect(self.success_url)
         else:
             return self.form_invalid(form)
 
 
-class AlbumEditView(UpdateView):
+class AlbumEditView(LoginRequiredMixin, UpdateView):
     """docstring for AlbumEditView."""
 
     model = Album
@@ -40,7 +47,7 @@ class AlbumEditView(UpdateView):
         return super(AlbumEditView, self).form_valid(form)
 
 
-class PhotoFormView(CreateView):
+class PhotoFormView(LoginRequiredMixin, CreateView):
     """docstring for AlbumForm."""
 
     model = Photo
@@ -53,12 +60,15 @@ class PhotoFormView(CreateView):
         """."""
         form = self.get_form()
         if form.is_valid():
-            return self.form_valid(form)
+            form = form.save()
+            form.profile = User.objects.get(username=request.user.username)
+            form.save()
+            return HttpResponseRedirect(self.success_url)
         else:
             return self.form_invalid(form)
 
 
-class PhotoEditView(UpdateView):
+class PhotoEditView(LoginRequiredMixin, UpdateView):
     """docstring for PhotoEditView."""
 
     model = Photo
@@ -76,19 +86,32 @@ class PhotoEditView(UpdateView):
         return super(PhotoEditView, self).form_valid(form)
 
 
-class LibraryView(ListView):
+class LibraryView(LoginRequiredMixin, ListView):
     """The library view."""
 
     template_name = 'django_imager/library.html'
     model = Album
     exclude = []
 
-    def get_queryset(self):  # pragma no cover
-        """."""
-        qs = super(LibraryView, self).get_queryset()
-        if qs.count() > 1:
-            qs = qs.filter(user__username=self.request.user.username)
-        return qs
+    def get_context_data(self, **kwargs):  # pragma no cover
+        """Provide context for the view."""
+        context = super(LibraryView, self).get_context_data(**kwargs)
+        request = context['view'].request
+
+        album_list = Album.objects.filter(user=self.request.user.id)
+        album_list.order_by('id')
+        album_paginator = Paginator(album_list, 4)
+        if 'album_page' in request.GET:
+            album_page = request.GET.get('album_page').split('?photo_page=')[0]
+        else:
+            album_page = 1
+        try:
+            context['albums'] = album_paginator.page(album_page)
+        except PageNotAnInteger:
+            context['albums'] = album_paginator.page(1)
+        except EmptyPage:
+            context['albums'] = album_paginator.page(album_paginator.num_pages)
+        return context
 
 
 class AlbumView(ListView):
@@ -100,10 +123,26 @@ class AlbumView(ListView):
 
     def get_context_data(self, **kwargs):  # pragma no cover
         """."""
+        context = super(AlbumView, self).get_context_data(**kwargs)
+        request = context['view'].request
         queryset = Album.objects.filter(id=self.kwargs['pk'])
         album = queryset.get()
-        photos = album.photo_set.all()
-        return {'photos': photos, 'album': album}
+        context['album'] = album
+        photo_list = album.photo_set.all()
+        photo_list.order_by('id')
+        photo_paginator = Paginator(photo_list, 4)
+        if 'photo_page' in request.GET:
+            photo_page = request.GET.get('photo_page').split('?photo_page=')[0]
+        else:
+            photo_page = 1
+        context['photos'] = photo_paginator.page(photo_paginator.num_pages)
+        try:
+            context['photos'] = photo_paginator.page(photo_page)
+        except PageNotAnInteger:
+            context['photos'] = photo_paginator.page(1)
+        except EmptyPage:
+            context['photos'] = photo_paginator.page(photo_paginator.num_pages)
+        return context
 
 
 class PhotoView(DetailView):
@@ -120,11 +159,25 @@ class PublicPhotos(ListView):
     template_name = 'django_imager/public_photo.html'
     model = Photo
 
-    def get_queryset(self):
-        """."""
-        qs = super(PublicPhotos, self).get_queryset()
-        qs = qs.filter(published='PUBLIC')
-        return qs
+    def get_context_data(self, **kwargs):  # pragma no cover
+        """Provide context for the view."""
+        context = super(PublicPhotos, self).get_context_data(**kwargs)
+        request = context['view'].request
+        photo_list = Photo.objects.all()
+        photo_list.order_by('id')
+        photo_paginator = Paginator(photo_list, 4)
+        if 'photo_page' in request.GET:
+            photo_page = request.GET.get('photo_page').split('?photo_page=')[0]
+        else:
+            photo_page = 1
+        context['photos'] = photo_paginator.page(photo_paginator.num_pages)
+        try:
+            context['photos'] = photo_paginator.page(photo_page)
+        except PageNotAnInteger:
+            context['photos'] = photo_paginator.page(1)
+        except EmptyPage:
+            context['photos'] = photo_paginator.page(photo_paginator.num_pages)
+        return context
 
 
 class PublicAlbums(ListView):
@@ -133,8 +186,23 @@ class PublicAlbums(ListView):
     template_name = 'django_imager/public_album.html'
     model = Album
 
-    def get_queryset(self):
-        """."""
-        qs = super(PublicAlbums, self).get_queryset()
-        qs = qs.filter(published='PUBLIC')
-        return qs
+    def get_context_data(self, **kwargs):  # pragma no cover
+        """Provide context for the view."""
+        context = super(PublicAlbums, self).get_context_data(**kwargs)
+        request = context['view'].request
+        album_list = Album.objects.all()
+        album_list.order_by('id')
+        photo_paginator = Paginator([], 4)
+        album_paginator = Paginator(album_list, 4)
+        if 'album_page' in request.GET:
+            album_page = request.GET.get('album_page').split('?photo_page=')[0]
+        else:
+            album_page = 1
+        context['photos'] = photo_paginator.page(photo_paginator.num_pages)
+        try:
+            context['albums'] = album_paginator.page(album_page)
+        except PageNotAnInteger:
+            context['albums'] = album_paginator.page(1)
+        except EmptyPage:
+            context['albums'] = album_paginator.page(album_paginator.num_pages)
+        return context
