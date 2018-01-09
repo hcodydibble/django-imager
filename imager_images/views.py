@@ -93,7 +93,7 @@ class LibraryView(LoginRequiredMixin, ListView):
     model = Album
     exclude = []
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs):  # pragma no cover
         """Provide context for the view."""
         context = super(LibraryView, self).get_context_data(**kwargs)
         request = context['view'].request
@@ -159,7 +159,7 @@ class PublicPhotos(ListView):
     template_name = 'django_imager/public_photo.html'
     model = Photo
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs):  # pragma no cover
         """Provide context for the view."""
         context = super(PublicPhotos, self).get_context_data(**kwargs)
         request = context['view'].request
@@ -186,7 +186,7 @@ class PublicAlbums(ListView):
     template_name = 'django_imager/public_album.html'
     model = Album
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs):  # pragma no cover
         """Provide context for the view."""
         context = super(PublicAlbums, self).get_context_data(**kwargs)
         request = context['view'].request
