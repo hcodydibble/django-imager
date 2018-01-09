@@ -105,12 +105,6 @@ class ProfileTestCase(TestCase):
         response = self.client.get('/profile/bob')
         assert b'<li>username: bob</li>' in response.content
 
-    def test_album_edit_(self):
-        """."""
-        response = self.client.post('/login/', username='bob', password='7890uiop')
-        response = self.client.get('/images/album/3/edit')
-        assert response.status_code == 200
-
     def test_home_view_has_title(self):
         """."""
         response = HomeView()
