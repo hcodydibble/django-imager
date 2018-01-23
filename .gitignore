@@ -5,6 +5,11 @@ __pycache__/
 
 # C extensions
 *.so
+*.swo
+
+# Ignore contents but keep folder
+django_imager/MEDIA/*
+!django_imager/MEDIA/.gitkeep
 
 # Distribution / packaging
 .Python
@@ -99,3 +104,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# pycharm
+.idea/

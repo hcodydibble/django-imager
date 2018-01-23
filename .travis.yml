@@ -1,0 +1,21 @@
+language: python
+python:
+  - "3.6"
+notifications:
+  email: false
+
+service:
+  - postgresql
+
+before_script:
+  - psql -c "create database imager;" -U postgres
+
+install:
+  - pip install -r requirements.pip
+  - pip install coveralls
+
+script:
+  - coverage run ./manage.py test
+
+after_success:
+  - coveralls
